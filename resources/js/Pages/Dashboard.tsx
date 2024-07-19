@@ -4,28 +4,7 @@ import { PageProps } from '@/types';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
-interface Car {
-    id: number;
-    name: string;
-}
-
 export default function Dashboard({ auth }: PageProps) {
-
-    const [cars, setCars] = useState<Car[]>([]);
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://localhost:8000/api/cars-index');
-                setCars(response.data);
-                console.log(response.data);
-                console.log('log do fech' + cars);
-            } catch (error) {
-                console.error('Error fetching cars:', error); 
-            }
-        };
-
-        fetchData();
-    }, []);
 
     return (
         <AuthenticatedLayout
@@ -38,15 +17,7 @@ export default function Dashboard({ auth }: PageProps) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div>
-                            {cars.length > 0 ? (
-                                <ul>
-                                    {cars.map((car) => (
-                                        <li key={car.id}>{car.name}</li>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <p>No cars found.</p>
-                            )}
+                            metrics page...coming soon
                         </div>
                     </div>
                 </div>
