@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
+use Inertia\Inertia;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,4 +18,7 @@ use App\Http\Controllers\CarController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/cars-index', [CarController::class, 'index'])->name('cars.index');
+
+Route::middleware(['auth', 'verified'])->get('/cars', function () {
+    return Inertia::render('Cars');
+})->name('cars');

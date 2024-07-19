@@ -36,7 +36,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    Route::get('/cars-index', [CarController::class, 'index'])->name('cars.index');
+    //Route::get('/cars-index', [CarController::class, 'index'])->name('cars.index');
+
+    Route::middleware(['auth', 'verified'])->get('/cars', function () {
+        return Inertia::render('Cars');
+    })->name('cars');
 });
 
 require __DIR__.'/auth.php';

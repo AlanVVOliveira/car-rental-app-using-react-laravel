@@ -20,7 +20,7 @@ export default function Cars({ auth }: PageProps) {
                 console.log(response.data);
                 console.log('log do fech' + cars);
             } catch (error) {
-                console.error('Error fetching cars:', error); 
+                console.error('Error fetching cars:', error);
             }
         };
 
