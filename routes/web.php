@@ -36,9 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    //Route::get('/cars-index', [CarController::class, 'index'])->name('cars.index');
-
-    Route::middleware(['auth', 'verified'])->get('/cars', function () {
+    Route::middleware(['auth', 'verified'])->get('/cars-index', function () {
         return Inertia::render('Cars');
     })->name('cars');
 });
