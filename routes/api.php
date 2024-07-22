@@ -20,4 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/cars-index', [CarController::class, 'index'])->name('cars.index');
+//Route::post('/cars-create', [CarController::class, 'create'])->name('cars.create');
 

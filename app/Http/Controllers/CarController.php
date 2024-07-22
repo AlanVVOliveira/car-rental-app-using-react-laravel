@@ -18,4 +18,9 @@ class CarController extends Controller
 
         return response()->json($cars);
     }
+
+    public function create(Request $request)
+    {
+        // method store
+    }
 }
