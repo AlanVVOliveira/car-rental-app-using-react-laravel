@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CarController extends Controller
 {
@@ -19,8 +21,17 @@ class CarController extends Controller
         return response()->json($cars);
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
-        // method store
+        try {
+            Car::create([
+                'inputExample' => $request->input('example'),
+            ]);
+            return response()->json(['message' => 'Successfully!']);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            Log::info($request->all());
+            return response()->json(['message' => 'Error'], 500);
+        }
     }
 }
