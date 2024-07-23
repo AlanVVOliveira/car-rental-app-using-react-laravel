@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { PageProps } from '@/types';
+import axios from 'axios';
 //import React from 'react';
 import React, { useState, useEffect } from 'react';
 
@@ -34,6 +35,17 @@ export default function CarRegistration({ auth }: PageProps) {
       ...prevFormData,
       [id]: value,
     }));
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.post('/api/cars', formData);
+      console.log('Form submitted successfully:', response.data);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
   };
 
   useEffect(() => {
