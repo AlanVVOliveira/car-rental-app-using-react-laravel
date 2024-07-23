@@ -41,7 +41,7 @@ export default function CarRegistration({ auth }: PageProps) {
     event.preventDefault();
 
     try {
-      const response = await axios.post('/api/cars', formData);
+      const response = await axios.post('/api/cars-store', formData);
       console.log('Form submitted successfully:', response.data);
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -62,7 +62,7 @@ export default function CarRegistration({ auth }: PageProps) {
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <form className="max-w-sm mx-auto">
+            <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
 
               <div className="mb-5">
                 <label htmlFor="manufacturer" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Manufacturer</label>

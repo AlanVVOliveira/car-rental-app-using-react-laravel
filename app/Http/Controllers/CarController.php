@@ -25,7 +25,14 @@ class CarController extends Controller
     {
         try {
             Car::create([
-                'inputExample' => $request->input('example'),
+                'manufacturer' => $request->input('manufacturer'),
+                'model' => $request->input('model'),
+                'exchange' => $request->input('exchange'),
+                'version' => $request->input('version'),
+                'fuel' => $request->input('fuel'),
+                'year' => $request->input('year'),
+                'dailyPrice' => $request->input('dailyPrice'),
+                'plate' => $request->input('plate'),
             ]);
             return response()->json(['message' => 'Successfully!']);
         } catch (Exception $e) {
