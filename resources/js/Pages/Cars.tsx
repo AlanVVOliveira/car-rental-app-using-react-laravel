@@ -6,7 +6,14 @@ import React, { useState, useEffect } from 'react';
 
 interface Car {
     id: number;
-    name: string;
+    manufacturer: string;
+    model: string;
+    exchange: string;
+    version: string;
+    fuel: string;
+    year: number;
+    dailyPrice: number;
+    plate: string;
 }
 
 export default function Cars({ auth }: PageProps) {
@@ -37,17 +44,26 @@ export default function Cars({ auth }: PageProps) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div>
-                            {cars.length > 0 ? (
-                                <ul>
-                                    {cars.map((car) => (
-                                        <li key={car.id}>{car.name}</li>
-                                    ))}
+                        {cars.length > 0 ? (
+                            <div> {cars.map((car) => (
+                                <ul key={car.id}>
+                                    <li>{car.manufacturer}</li>
+                                    <li>{car.model}</li>
+                                    <li>{car.exchange}</li>
+                                    <li>{car.version}</li>
+                                    <li>{car.fuel}</li>
+                                    <li>{car.year}</li>
+                                    <li>{car.dailyPrice}</li>
+                                    <li>{car.plate}</li>
                                 </ul>
-                            ) : (
-                                <p>No cars found.</p>
+                            ))}
+                            </div>)
+                            :
+                            (
+                                <div>
+                                    <p>No cars found.</p>
+                                </div>
                             )}
-                        </div>
                     </div>
                 </div>
             </div>

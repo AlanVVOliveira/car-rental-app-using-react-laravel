@@ -11,12 +11,13 @@ class CarController extends Controller
 {
     public function index(Request $request)
     {
+        $cars = Car::where('isAvailable', 1)->where('isActive', 1)->get();
         // Provisional Data
-        $cars = array(
+        /*$cars = array(
             array("id" => 1, "name" => "Toyota Corolla"),
             array("id" => 2, "name" => "Honda Civic"),
             array("id" => 3, "name" => "Ford Mustang"),
-        );
+        );*/
 
         return response()->json($cars);
     }
