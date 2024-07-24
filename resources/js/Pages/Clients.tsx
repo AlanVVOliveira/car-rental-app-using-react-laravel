@@ -9,7 +9,7 @@ interface Client {
     name: string;
 }
 
-export default function Cars({ auth }: PageProps) {
+export default function Clients({ auth }: PageProps) {
 
     const [clients, setClients] = useState<Client[]>([]);
     useEffect(() => {
