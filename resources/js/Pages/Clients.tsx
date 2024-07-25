@@ -15,7 +15,7 @@ export default function Clients({ auth }: PageProps) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/api/routeIsHere');
+                const response = await axios.get('http://localhost:8000/api/clients-index');
                 setClients(response.data);
                 console.log(response.data);
                 console.log('log do fech' + clients);

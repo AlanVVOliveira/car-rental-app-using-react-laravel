@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\ClientController;
 use Inertia\Inertia;
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/cars-index', [CarController::class, 'index'])->name('cars.index');
 Route::post('/cars-store', [CarController::class, 'store'])->name('cars.store');
+
+Route::get('/clients-index', [ClientController::class, 'index'])->name('clients.index');
 

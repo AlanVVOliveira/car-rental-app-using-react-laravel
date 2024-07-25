@@ -43,6 +43,10 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['auth', 'verified'])->get('/cars-create', function () {
         return Inertia::render('CarRegistration');
     })->name('car-registration');
+
+    Route::middleware(['auth', 'verified'])->get('/clients-index', function () {
+        return Inertia::render('Clients');
+    })->name('clients');
 });
 
 require __DIR__.'/auth.php';
