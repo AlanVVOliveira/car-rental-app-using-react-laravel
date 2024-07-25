@@ -16,11 +16,11 @@ class Client extends Model
         'gender',
         'cpf',
         'phone',
-        'Country',
+        'country',
         'state',
         'city',
         'street_or_avenue',
-        'NumberOfAddress',
+        'number_of_address',
         'isActive',
     ];
 }
