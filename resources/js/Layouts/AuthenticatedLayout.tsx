@@ -44,6 +44,12 @@ export default function Authenticated({ user, header, children }: PropsWithChild
                                     Clients
                                 </NavLink>
                             </div>
+
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink href={route('customer-registration')} active={route().current('customer-registration')}>                    
+                                    Customer Registration
+                                </NavLink>
+                            </div>
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">

@@ -43,7 +43,7 @@ export default function CustomerRegistration({ auth }: PageProps) {
         event.preventDefault();
 
         try {
-            const response = await axios.post('/api/', formData);
+            const response = await axios.post('/api/clients-store', formData);
             console.log('Form submitted successfully:', response.data);
         } catch (error) {
             console.error('Error submitting form:', error);

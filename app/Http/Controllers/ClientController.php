@@ -18,4 +18,9 @@ class ClientController extends Controller
 
         return response()->json($clients);
     }
+
+    public function store(Request $request)
+    {
+        // logic is here
+    }
 }
