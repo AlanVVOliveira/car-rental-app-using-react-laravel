@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ClientController extends Controller
 {
@@ -21,6 +23,24 @@ class ClientController extends Controller
 
     public function store(Request $request)
     {
-        // logic is here
+        try {
+            Client::create([
+                'full_name'  => $request->input('full_name'),
+                'gender' => $request->input('gender'), 
+                'cpf' => $request->input('cpf'),
+                'phone' => $request->input('phone'),
+                'country' => $request->input('country'),
+                'state' => $request->input('state'),
+                'city' => $request->input('city'),
+                'street_or_avenue' => $request->input('street_or_avenue'),
+                'number_of_address' => $request->input('number_of_address'),
+                'isActive' => $request->input('isActive'),
+            ]);
+            return response()->json(['message' => 'Successfully!']);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            Log::info($request->all());
+            return response()->json(['message' => 'Error'], 500);
+        }
     }
 }
