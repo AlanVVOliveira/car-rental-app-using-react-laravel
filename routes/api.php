@@ -24,5 +24,5 @@ Route::get('/cars-index', [CarController::class, 'index'])->name('cars.index');
 Route::post('/cars-store', [CarController::class, 'store'])->name('cars.store');
 
 Route::get('/clients-index', [ClientController::class, 'index'])->name('clients.index');
-Route::get('/clients-store', [ClientController::class, 'store'])->name('clients.store');
+Route::post('/clients-store', [ClientController::class, 'store'])->name('clients.store');
 

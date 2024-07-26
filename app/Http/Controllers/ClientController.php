@@ -34,7 +34,6 @@ class ClientController extends Controller
                 'city' => $request->input('city'),
                 'street_or_avenue' => $request->input('street_or_avenue'),
                 'number_of_address' => $request->input('number_of_address'),
-                'isActive' => $request->input('isActive'),
             ]);
             return response()->json(['message' => 'Successfully!']);
         } catch (Exception $e) {

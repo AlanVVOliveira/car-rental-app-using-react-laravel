@@ -15,7 +15,7 @@ interface FormData {
     state: string;
     city: string;
     street_or_avenue: string | number | string & number;
-    numberOfAddress: number;
+    number_of_address: number;
 }
 
 export default function CustomerRegistration({ auth }: PageProps) {
@@ -28,7 +28,7 @@ export default function CustomerRegistration({ auth }: PageProps) {
         state: '',
         city: '',
         street_or_avenue: '',
-        numberOfAddress: 0,
+        number_of_address: 0,
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -179,14 +179,14 @@ export default function CustomerRegistration({ auth }: PageProps) {
                             </div>
 
                             <div className="mb-5">
-                                <label htmlFor="numberOfAddress"
+                                <label htmlFor="number_of_address"
                                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number of Address</label>
                                 <input
                                     type="number"
-                                    id="numberOfAddress"
+                                    id="number_of_address"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="No."
-                                    value={formData.street_or_avenue}
+                                    value={formData.number_of_address}
                                     onChange={handleChange}
                                     required
                                 />
