@@ -9,7 +9,7 @@ interface Client {
     full_name: string;
     gender: string;
     cpf: number;
-    phone:number
+    phone: number
     country: string;
     state: string;
     city: string;
@@ -45,27 +45,84 @@ export default function Clients({ auth }: PageProps) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        {clients.length > 0 ? (
-                            <div> {clients.map((client) => (
-                                <ul key={client.id}>
-                                    <li>{client.full_name}</li>
-                                    <li>{client.gender}</li>
-                                    <li>{client.cpf}</li>
-                                    <li>{client.phone}</li>
-                                    <li>{client.country}</li>
-                                    <li>{client.state}</li>
-                                    <li>{client.city}</li>
-                                    <li>{client.street_or_avenue}</li>
-                                    <li>{client.number_of_address}</li>
-                                </ul>
-                            ))}
-                            </div>)
-                            :
-                            (
-                                <div>
-                                    <p>No cars found.</p>
-                                </div>
-                            )}
+                        {/* table */}
+                        <div className="relative overflow-x-auto">
+                            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" className="px-6 py-3">
+                                            Full name
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            Gender
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            CPF
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            Phone
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            Country
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            State
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            City
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            Street or Avenue
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            number_of_address
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                {clients.length > 0 ? (
+                                    <tbody> {clients.map((client) => (
+
+                                        <tr key={client.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                {client.full_name}
+                                            </th>
+                                            <td className="px-6 py-4">
+                                                {client.gender}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {client.cpf}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {client.phone}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {client.country}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {client.state}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {client.city}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {client.street_or_avenue}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {client.number_of_address}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    </tbody>)
+                                    :
+                                    (
+                                        <div>
+                                            <p>No cars found.</p>
+                                        </div>
+                                    )}
+
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
