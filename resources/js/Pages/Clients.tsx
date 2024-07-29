@@ -6,7 +6,15 @@ import React, { useState, useEffect } from 'react';
 
 interface Client {
     id: number;
-    name: string;
+    full_name: string;
+    gender: string;
+    cpf: number;
+    phone:number
+    country: string;
+    state: string;
+    city: string;
+    street_or_avenue: string;
+    number_of_address: number;
 }
 
 export default function Clients({ auth }: PageProps) {
@@ -40,14 +48,22 @@ export default function Clients({ auth }: PageProps) {
                         {clients.length > 0 ? (
                             <div> {clients.map((client) => (
                                 <ul key={client.id}>
-                                    {client.name}
+                                    <li>{client.full_name}</li>
+                                    <li>{client.gender}</li>
+                                    <li>{client.cpf}</li>
+                                    <li>{client.phone}</li>
+                                    <li>{client.country}</li>
+                                    <li>{client.state}</li>
+                                    <li>{client.city}</li>
+                                    <li>{client.street_or_avenue}</li>
+                                    <li>{client.number_of_address}</li>
                                 </ul>
                             ))}
                             </div>)
                             :
                             (
                                 <div>
-                                    <p>No clients found.</p>
+                                    <p>No cars found.</p>
                                 </div>
                             )}
                     </div>
