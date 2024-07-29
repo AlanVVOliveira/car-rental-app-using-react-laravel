@@ -12,12 +12,6 @@ class CarController extends Controller
     public function index(Request $request)
     {
         $cars = Car::where('isAvailable', 1)->where('isActive', 1)->get();
-        // Provisional Data
-        /*$cars = array(
-            array("id" => 1, "name" => "Toyota Corolla"),
-            array("id" => 2, "name" => "Honda Civic"),
-            array("id" => 3, "name" => "Ford Mustang"),
-        );*/
 
         return response()->json($cars);
     }
@@ -35,6 +29,21 @@ class CarController extends Controller
                 'dailyPrice' => $request->input('dailyPrice'),
                 'plate' => $request->input('plate'),
             ]);
+            return response()->json(['message' => 'Successfully!']);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            Log::info($request->all());
+            return response()->json(['message' => 'Error'], 500);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $Car = Car::findOrFail($id);
+            $Car->isActive = 0;
+            $Car->save();
+
             return response()->json(['message' => 'Successfully!']);
         } catch (Exception $e) {
             Log::error($e->getMessage());
