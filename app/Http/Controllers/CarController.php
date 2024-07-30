@@ -51,4 +51,17 @@ class CarController extends Controller
             return response()->json(['message' => 'Error'], 500);
         }
     }
+
+    public function show(Request $request, $id)
+    {
+        try {
+            $car = Car::findOrFail($id);
+
+            return response()->json($car);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            Log::info($request->all());
+            return response()->json(['message' => 'Error'], 500);
+        }
+    }
 }

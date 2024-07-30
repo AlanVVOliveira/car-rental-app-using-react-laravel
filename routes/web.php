@@ -43,6 +43,18 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['auth', 'verified'])->get('/cars-create', function () {
         return Inertia::render('CarRegistration');
     })->name('car-registration');
+    
+    Route::middleware(['auth', 'verified'])->get('/cars-show/{id}', function ($id) {
+        return Inertia::render('ShowCar', [
+            'id' => $id
+        ]);
+    })->name('show-car');
+
+    /*
+        Route::middleware(['auth', 'verified'])->get('/cars-show/{id}', function ($id) {
+        return Inertia::render('ShowCar', ['id' => $id]);
+    })->name('show-car');
+    */
 
     Route::middleware(['auth', 'verified'])->get('/clients-index', function () {
         return Inertia::render('Clients');
