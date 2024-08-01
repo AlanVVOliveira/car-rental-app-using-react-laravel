@@ -3,6 +3,7 @@ import { Head } from '@inertiajs/react';
 import axios from 'axios';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PageProps } from '@/types';
+import { CustomerSelectionOptions } from '@/Components/CustomerSelectionOptions';
 
 interface Car {
     id: number;
@@ -22,6 +23,7 @@ interface ShowCarProps extends PageProps {
 
 export default function ShowCar({ auth, id }: ShowCarProps) {
     const [car, setCar] = useState<Car | null>(null);
+    const urlApi = 'http://localhost:8000/api/clients-index'; // API CLIENTS
 
     useEffect(() => {
         const fetchData = async () => {
@@ -81,6 +83,7 @@ export default function ShowCar({ auth, id }: ShowCarProps) {
                             <p>Loading...</p>
                         )}
                     </div>
+                    <CustomerSelectionOptions url={urlApi}/>
                 </div>
             </div>
         </AuthenticatedLayout>

@@ -7,11 +7,11 @@ interface Option {
   label: string;
 }
 
-interface IDynamicSelectProps {
+interface ICustomerSelectionOptionsProps {
   url: string; // URL endpoint Laravel
 }
 
-export const DynamicSelect: React.FC<IDynamicSelectProps> = ({ url }) => {
+export const CustomerSelectionOptions: React.FC<ICustomerSelectionOptionsProps> = ({ url }) => {
   const [options, setOptions] = useState<Option[]>([]);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export const DynamicSelect: React.FC<IDynamicSelectProps> = ({ url }) => {
         const data = response.data;
         const optionsData = data.map((item: any) => ({
           value: item.id, 
-          label: item.name, 
+          label: item.full_name, 
         }));
         setOptions(optionsData);
       } catch (error) {
