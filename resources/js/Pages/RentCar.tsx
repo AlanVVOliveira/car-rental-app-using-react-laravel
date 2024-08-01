@@ -17,11 +17,11 @@ interface Car {
     plate: string;
 }
 
-interface ShowCarProps extends PageProps {
+interface IRentCarProps extends PageProps {
     id: number;
 }
 
-export default function ShowCar({ auth, id }: ShowCarProps) {
+export default function RentCar({ auth, id }: IRentCarProps) {
     const [car, setCar] = useState<Car | null>(null);
     const urlApi = 'http://localhost:8000/api/clients-index'; // API CLIENTS
 
@@ -45,9 +45,9 @@ export default function ShowCar({ auth, id }: ShowCarProps) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Show Car</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Rent Car</h2>}
         >
-            <Head title="Show Car" />
+            <Head title="Rent Car" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">

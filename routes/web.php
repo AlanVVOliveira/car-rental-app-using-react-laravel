@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
     })->name('car-registration');
     
     Route::middleware(['auth', 'verified'])->get('/cars-show/{id}', function ($id) {
-        return Inertia::render('ShowCar', [
+        return Inertia::render('RentCar', [
             'id' => $id
         ]);
     })->name('show-car');
