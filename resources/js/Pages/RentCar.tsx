@@ -83,7 +83,16 @@ export default function RentCar({ auth, id }: IRentCarProps) {
                             <p>Loading...</p>
                         )}
                     </div>
-                    <CustomerSelectionOptions url={urlApi}/>
+                    <div>
+                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Client</label>
+                        <CustomerSelectionOptions url={urlApi} />
+                    </div>
+                    <div>
+                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Pick-up Date</label>
+                    </div>
+                    <div>
+                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Drop-off Date</label>
+                    </div>
                 </div>
             </div>
         </AuthenticatedLayout>
