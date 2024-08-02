@@ -4,6 +4,7 @@ import axios from 'axios';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PageProps } from '@/types';
 import { CustomerSelectionOptions } from '@/Components/CustomerSelectionOptions';
+import { StartDatepicker } from '@/Components/StartDatepicker';
 
 interface Car {
     id: number;
@@ -23,6 +24,7 @@ interface IRentCarProps extends PageProps {
 
 export default function RentCar({ auth, id }: IRentCarProps) {
     const [car, setCar] = useState<Car | null>(null);
+    const [startDate, setStartDate] = useState<Date | null>(null); 
     const urlApi = 'http://localhost:8000/api/clients-index'; // API CLIENTS
 
     useEffect(() => {
@@ -89,6 +91,7 @@ export default function RentCar({ auth, id }: IRentCarProps) {
                     </div>
                     <div>
                         <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Pick-up Date</label>
+                        <StartDatepicker date={startDate} />
                     </div>
                     <div>
                         <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Drop-off Date</label>
