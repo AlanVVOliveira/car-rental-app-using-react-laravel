@@ -20,9 +20,4 @@ class Order extends Model
         'total',
         'isActive'
     ];
-
-    public function car()
-    {
-        return $this->belongsTo(Car::class);
-    }
 }
