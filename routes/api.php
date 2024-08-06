@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\OrderController;
 use Inertia\Inertia;
 /*
 |--------------------------------------------------------------------------
@@ -27,4 +28,6 @@ Route::get('/cars-show/{id}', [CarController::class, 'show'])->name('cars.show')
 
 Route::get('/clients-index', [ClientController::class, 'index'])->name('clients.index');
 Route::post('/clients-store', [ClientController::class, 'store'])->name('clients.store');
+
+Route::get('/orders-index', [OrderController::class, 'index'])->name('orders.index');
 
