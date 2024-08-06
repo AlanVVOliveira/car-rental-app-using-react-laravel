@@ -44,15 +44,15 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('CarRegistration');
     })->name('car-registration');
     
-    Route::middleware(['auth', 'verified'])->get('/orders-index', function () {
+    /*Route::middleware(['auth', 'verified'])->get('/orders-index', function () {
         return Inertia::render('RentCar');
-    })->name('rentcar');
+    })->name('rentcar');*/
     
-    /*Route::middleware(['auth', 'verified'])->get('/cars-show/{id}', function ($id) {
+    Route::middleware(['auth', 'verified'])->get('/cars-show/{id}', function ($id) {
         return Inertia::render('RentCar', [
             'id' => $id
         ]);
-    })->name('show-car');*/
+    })->name('show-car');
 
     /*
         Route::middleware(['auth', 'verified'])->get('/cars-show/{id}', function ($id) {

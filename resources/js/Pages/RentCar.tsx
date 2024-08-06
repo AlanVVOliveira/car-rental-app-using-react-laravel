@@ -4,7 +4,7 @@ import axios from 'axios';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PageProps } from '@/types';
 import { CustomerSelectionOptions } from '@/Components/CustomerSelectionOptions';
-import { StartDatepicker } from '@/Components/StartDatepicker';
+import { Datepicker } from '@/Components/Datepicker';
 
 interface Car {
     id: number;
@@ -25,7 +25,8 @@ interface IRentCarProps extends PageProps {
 export default function RentCar({ auth, id }: IRentCarProps) {
     const [car, setCar] = useState<Car | null>(null);
     const [startDate, setStartDate] = useState<Date | null>(null);
-    const urlApi = 'http://localhost:8000/api/clients-index'; // API CLIENTS
+    const [endDate, setEndDate] = useState<Date | null>(null);
+    const urlApi = 'http://localhost:8000/api/clients-index'; 
 
     useEffect(() => {
         const fetchData = async () => {
@@ -85,16 +86,17 @@ export default function RentCar({ auth, id }: IRentCarProps) {
                             <p>Loading...</p>
                         )}
                     </div>
-                    <div>
+                    <div >
                         <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Client</label>
                         <CustomerSelectionOptions url={urlApi} />
                     </div>
-                    <div>
-                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Pick-up Date</label>
-                        <StartDatepicker date={startDate} onDateChange={setStartDate}/>
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Pick-up Date</label><br />
+                        <Datepicker date={startDate} onDateChange={setStartDate} />
                     </div>
-                    <div>
-                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Drop-off Date</label>
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Drop-off Date</label><br />
+                        <Datepicker date={endDate} onDateChange={setEndDate} />
                     </div>
                 </div>
             </div>

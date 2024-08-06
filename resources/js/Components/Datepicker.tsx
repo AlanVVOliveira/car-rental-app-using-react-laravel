@@ -2,12 +2,12 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-interface IStartDatepickerProps {
+interface IDatepickerProps {
   date: Date | null;
   onDateChange: (date: Date | null) => void;
 }
 
-export const StartDatepicker: React.FC<IStartDatepickerProps> = ({ date, onDateChange }) => {
+export const Datepicker: React.FC<IDatepickerProps> = ({ date, onDateChange }) => {
   return (
     <DatePicker
       selected={date}
