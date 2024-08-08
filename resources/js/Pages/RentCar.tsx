@@ -26,7 +26,34 @@ export default function RentCar({ auth, id }: IRentCarProps) {
     const [car, setCar] = useState<Car | null>(null);
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
-    const urlApi = 'http://localhost:8000/api/clients-index'; 
+    const [totalRentalDays, setTotalRentalDays] = useState<number | null>(null);
+    const [dailyRentalValue, setDailyRentalValue] = useState<number | null>(null);
+    const [totalRentalValue, setTotalRentalValue] = useState<number | null>(null);
+    const urlApi = 'http://localhost:8000/api/clients-index';
+
+    function calculateDaysDifference(startDate: Date, endDate: Date): number {
+        // Calculates the difference in milliseconds
+        const diffInMilliseconds = Math.abs(endDate.getTime() - startDate.getTime());
+
+        // Convert to days (approximate)
+        const diffInDays = Math.round(diffInMilliseconds / (1000 * 60 * 60 * 24));
+
+        return diffInDays;
+    }
+
+    useEffect(() => {
+        if (startDate && endDate) {
+            const calculatedDifference = calculateDaysDifference(startDate, endDate);
+            setTotalRentalDays(calculatedDifference);
+        }
+    }, [startDate, endDate]);
+
+    useEffect(() => {
+        if (totalRentalDays !== null && dailyRentalValue !== null) {
+            const calculateRentValue = totalRentalDays * dailyRentalValue;
+            setTotalRentalValue(calculateRentValue);
+        }
+    });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,6 +61,7 @@ export default function RentCar({ auth, id }: IRentCarProps) {
                 try {
                     const response = await axios.get(`http://localhost:8000/api/cars-show/${id}`);
                     setCar(response.data);
+                    setDailyRentalValue(response.data.dailyPrice);
                 } catch (error) {
                     console.error('Error fetching car:', error);
                 }
@@ -41,7 +69,6 @@ export default function RentCar({ auth, id }: IRentCarProps) {
                 console.error('Car ID is missing');
             }
         };
-
         fetchData();
     }, [id]);
 
@@ -87,16 +114,41 @@ export default function RentCar({ auth, id }: IRentCarProps) {
                         )}
                     </div>
                     <div >
-                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Client</label>
+                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
+                        dark:text-gray-400">
+                            Client
+                        </label>
                         <CustomerSelectionOptions url={urlApi} />
                     </div>
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Pick-up Date</label><br />
+                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
+                        dark:text-gray-400">
+                            Pick-up Date
+                        </label><br />
                         <Datepicker date={startDate} onDateChange={setStartDate} />
                     </div>
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">Drop-off Date</label><br />
+                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
+                        dark:text-gray-400">
+                            Drop-off Date
+                        </label><br />
                         <Datepicker date={endDate} onDateChange={setEndDate} />
+                    </div>
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
+                        dark:text-gray-400">
+                            Total days
+                        </label><br />
+                        <div>
+                            {totalRentalDays}
+                        </div>
+                    </div>
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
+                        dark:text-gray-400">
+                            Total
+                        </label><br />
+                        <div>{totalRentalValue}</div>
                     </div>
                 </div>
             </div>
