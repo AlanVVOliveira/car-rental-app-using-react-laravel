@@ -9,6 +9,7 @@ interface Option {
 
 interface ICustomerSelectionOptionsProps {
   url: string; // URL endpoint Laravel
+  onChange?: (selectedValue: string) => void;
 }
 
 export const CustomerSelectionOptions: React.FC<ICustomerSelectionOptionsProps> = ({ url }) => {

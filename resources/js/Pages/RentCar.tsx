@@ -24,6 +24,7 @@ interface IRentCarProps extends PageProps {
 
 export default function RentCar({ auth, id }: IRentCarProps) {
     const [car, setCar] = useState<Car | null>(null);
+    const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
     const [totalRentalDays, setTotalRentalDays] = useState<number | null>(null);
@@ -72,86 +73,129 @@ export default function RentCar({ auth, id }: IRentCarProps) {
         fetchData();
     }, [id]);
 
+    const handleFormSubmit = async (event: any) => {
+        event.preventDefault(); 
+      
+        if (!startDate || !endDate) {
+            console.error("Start or end date is missing");
+            return;
+          }
+
+        // Prepare the data to send
+        const data = {
+            client_id: selectedClientId,
+            rental_start_date: startDate.toISOString(),
+            rental_end_date: endDate.toISOString(),
+            number_of_rent_days: totalRentalDays,
+            total: totalRentalValue,
+            car_id: id,
+        };
+      
+        // Print the data before sending
+        console.log("Data to be sent:", data);
+
+        try {
+          //const response = await axios.post('/api/rent-car', data);
+          //console.log('Car rental request submitted:', response.data);
+        } catch (error) {
+          console.error('Error submitting car rental request:', error);
+        }
+      };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Rent Car</h2>}
         >
             <Head title="Rent Car" />
-
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        {car ? (
-                            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" className="px-6 py-3">Manufacturer</th>
-                                        <th scope="col" className="px-6 py-3">Model</th>
-                                        <th scope="col" className="px-6 py-3">Exchange</th>
-                                        <th scope="col" className="px-6 py-3">Version</th>
-                                        <th scope="col" className="px-6 py-3">Fuel</th>
-                                        <th scope="col" className="px-6 py-3">Year</th>
-                                        <th scope="col" className="px-6 py-3">Daily Price</th>
-                                        <th scope="col" className="px-6 py-3">Plate</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <td className="px-6 py-4">{car.manufacturer}</td>
-                                        <td className="px-6 py-4">{car.model}</td>
-                                        <td className="px-6 py-4">{car.exchange}</td>
-                                        <td className="px-6 py-4">{car.version}</td>
-                                        <td className="px-6 py-4">{car.fuel}</td>
-                                        <td className="px-6 py-4">{car.year}</td>
-                                        <td className="px-6 py-4">{car.dailyPrice}</td>
-                                        <td className="px-6 py-4">{car.plate}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        ) : (
-                            <p>Loading...</p>
-                        )}
-                    </div>
-                    <div >
-                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
-                        dark:text-gray-400">
-                            Client
-                        </label>
-                        <CustomerSelectionOptions url={urlApi} />
-                    </div>
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
-                        dark:text-gray-400">
-                            Pick-up Date
-                        </label><br />
-                        <Datepicker date={startDate} onDateChange={setStartDate} />
-                    </div>
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
-                        dark:text-gray-400">
-                            Drop-off Date
-                        </label><br />
-                        <Datepicker date={endDate} onDateChange={setEndDate} />
-                    </div>
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
-                        dark:text-gray-400">
-                            Total days
-                        </label><br />
+            <form onSubmit= {handleFormSubmit}>
+                <div className="py-12">
+                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                            {car ? (
+                                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" className="px-6 py-3">Manufacturer</th>
+                                            <th scope="col" className="px-6 py-3">Model</th>
+                                            <th scope="col" className="px-6 py-3">Exchange</th>
+                                            <th scope="col" className="px-6 py-3">Version</th>
+                                            <th scope="col" className="px-6 py-3">Fuel</th>
+                                            <th scope="col" className="px-6 py-3">Year</th>
+                                            <th scope="col" className="px-6 py-3">Daily Price</th>
+                                            <th scope="col" className="px-6 py-3">Plate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <td className="px-6 py-4">{car.manufacturer}</td>
+                                            <td className="px-6 py-4">{car.model}</td>
+                                            <td className="px-6 py-4">{car.exchange}</td>
+                                            <td className="px-6 py-4">{car.version}</td>
+                                            <td className="px-6 py-4">{car.fuel}</td>
+                                            <td className="px-6 py-4">{car.year}</td>
+                                            <td className="px-6 py-4">{car.dailyPrice}</td>
+                                            <td className="px-6 py-4">{car.plate}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            ) : (
+                                <p>Loading...</p>
+                            )}
+                        </div>
+                        <div className="bg-white shadow-sm sm:rounded-lg">
+                            <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
+                            dark:text-gray-400">
+                                Client
+                            </label>
+                            <CustomerSelectionOptions 
+                            onChange={(selectedValue) => setSelectedClientId(selectedValue)} 
+                            url={urlApi} />
+                        </div>
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                            <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
+                            dark:text-gray-400">
+                                Pick-up Date
+                            </label><br />
+                            <Datepicker date={startDate} onDateChange={setStartDate} />
+                        </div>
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                            <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
+                            dark:text-gray-400">
+                                Drop-off Date
+                            </label><br />
+                            <Datepicker date={endDate} onDateChange={setEndDate} />
+                        </div>
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                            <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
+                            dark:text-gray-400">
+                                Total days
+                            </label><br />
+                            <div>
+                                {totalRentalDays}
+                            </div>
+                        </div>
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                            <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
+                            dark:text-gray-400">
+                                Total
+                            </label><br />
+                            <div>{totalRentalValue}</div>
+                        </div>
                         <div>
-                            {totalRentalDays}
+                            <button
+                                type="submit"
+                                className="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase 
+                                    leading-normal text-neutral-50 shadow-dark-3 transition duration-150 ease-in-out hover:bg-neutral-700 
+                                    hover:shadow-dark-2 focus:bg-neutral-700 focus:shadow-dark-2 focus:outline-none focus:ring-0 
+                                    active:bg-neutral-900 active:shadow-dark-2 motion-reduce:transition-none dark:shadow-black/30 
+                                    dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
+                                Confirm
+                            </button>
                         </div>
                     </div>
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
-                        dark:text-gray-400">
-                            Total
-                        </label><br />
-                        <div>{totalRentalValue}</div>
-                    </div>
                 </div>
-            </div>
+            </form>
         </AuthenticatedLayout>
     );
 }
