@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('client_name');
-            $table->foreignId('car_id')->constrained()->onDelete('cascade');
+            $table->foreignId('client_id')->constrained('clients');
+            $table->foreignId('car_id')->constrained('cars');
             $table->datetime ('rental_start_date');
             $table->datetime ('rental_end_date');
             $table->integer('number_of_rent_days');
             $table->decimal('total', 8, 2);
             $table->boolean('isActive')->default(true); 
             $table->timestamps();
+;
         });
     }
 

@@ -23,4 +23,9 @@ class Client extends Model
         'number_of_address',
         'isActive',
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

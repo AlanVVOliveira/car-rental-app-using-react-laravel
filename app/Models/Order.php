@@ -9,10 +9,8 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $table = 'orders';
-
     protected $fillable = [
-        'client_name',
+        'client_id',
         'car_id',
         'rental_start_date',
         'rental_end_date',
@@ -20,4 +18,14 @@ class Order extends Model
         'total',
         'isActive'
     ];
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function car()
+    {
+        return $this->belongsTo(Car::class);
+    }
 }

@@ -9,23 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropForeign(['car_id']);
-            $table->dropColumn('car_id');
-            $table->string('car')->after('client_name');
+            $table->dropColumn('car');
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('car');
-            $table->foreignId('car_id');
-        });
+        //
     }
 };

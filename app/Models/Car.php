@@ -23,4 +23,9 @@ class Car extends Model
         'isAvailable',
         'isActive'
     ];
+
+    public function orders()
+       {
+           return $this->hasMany(Order::class);
+       }
 }
