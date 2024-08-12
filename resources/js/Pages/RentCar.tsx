@@ -24,7 +24,7 @@ interface IRentCarProps extends PageProps {
 
 export default function RentCar({ auth, id }: IRentCarProps) {
     const [car, setCar] = useState<Car | null>(null);
-    const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
+    const [selectedClientId, setSelectedClientId] = useState<number | null>(null);
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
     const [totalRentalDays, setTotalRentalDays] = useState<number | null>(null);
@@ -74,12 +74,12 @@ export default function RentCar({ auth, id }: IRentCarProps) {
     }, [id]);
 
     const handleFormSubmit = async (event: any) => {
-        event.preventDefault(); 
-      
+        event.preventDefault();
+
         if (!startDate || !endDate) {
             console.error("Start or end date is missing");
             return;
-          }
+        }
 
         // Prepare the data to send
         const data = {
@@ -88,19 +88,18 @@ export default function RentCar({ auth, id }: IRentCarProps) {
             rental_end_date: endDate.toISOString(),
             number_of_rent_days: totalRentalDays,
             total: totalRentalValue,
-            car_id: id,
+            car_id: Number(id),
         };
-      
-        // Print the data before sending
+        // debug
         console.log("Data to be sent:", data);
 
         try {
-          //const response = await axios.post('/api/rent-car', data);
-          //console.log('Car rental request submitted:', response.data);
+            //const response = await axios.post('/api/rent-car', data);
+            //console.log('Car rental request submitted:', response.data);
         } catch (error) {
-          console.error('Error submitting car rental request:', error);
+            console.error('Error submitting car rental request:', error);
         }
-      };
+    };
 
     return (
         <AuthenticatedLayout
@@ -108,7 +107,7 @@ export default function RentCar({ auth, id }: IRentCarProps) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Rent Car</h2>}
         >
             <Head title="Rent Car" />
-            <form onSubmit= {handleFormSubmit}>
+            <form onSubmit={handleFormSubmit}>
                 <div className="py-12">
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -148,9 +147,9 @@ export default function RentCar({ auth, id }: IRentCarProps) {
                             dark:text-gray-400">
                                 Client
                             </label>
-                            <CustomerSelectionOptions 
-                            onChange={(selectedValue) => setSelectedClientId(selectedValue)} 
-                            url={urlApi} />
+                            <CustomerSelectionOptions
+                                onChange={(selectedValue) => setSelectedClientId(selectedValue)}
+                                url={urlApi} />
                         </div>
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 

@@ -3,16 +3,16 @@ import Select from 'react-select';
 import axios from 'axios';
 
 interface Option {
-  value: string;
+  value: number;
   label: string;
 }
 
 interface ICustomerSelectionOptionsProps {
   url: string; // URL endpoint Laravel
-  onChange?: (selectedValue: string) => void;
+  onChange: (selectedValue: number) => void;
 }
 
-export const CustomerSelectionOptions: React.FC<ICustomerSelectionOptionsProps> = ({ url }) => {
+export const CustomerSelectionOptions: React.FC<ICustomerSelectionOptionsProps> = ({ url, onChange }) => {
   const [options, setOptions] = useState<Option[]>([]);
 
   useEffect(() => {
@@ -21,10 +21,11 @@ export const CustomerSelectionOptions: React.FC<ICustomerSelectionOptionsProps> 
         const response = await axios.get(url);
         const data = response.data;
         const optionsData = data.map((item: any) => ({
-          value: item.id, 
-          label: item.full_name, 
+          value: item.id,
+          label: item.full_name,
         }));
         setOptions(optionsData);
+        console.log('Options updated:', options);
       } catch (error) {
         console.error('Error', error);
       }
@@ -33,7 +34,15 @@ export const CustomerSelectionOptions: React.FC<ICustomerSelectionOptionsProps> 
     fetchOptions();
   }, [url]);
 
+  const handleChange = (selectedOption: Option | null) => {
+    if (selectedOption) {
+      onChange(selectedOption.value);
+    } else {
+      onChange(0);
+    }
+  };
+
   return (
-    <Select options={options} />
+    <Select options={options} onChange={handleChange} />
   );
 };
