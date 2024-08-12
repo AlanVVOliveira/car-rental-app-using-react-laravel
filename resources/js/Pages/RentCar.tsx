@@ -82,7 +82,7 @@ export default function RentCar({ auth, id }: IRentCarProps) {
         }
 
         // Prepare the data to send
-        const data = {
+        const formData = {
             client_id: selectedClientId,
             rental_start_date: startDate.toISOString(),
             rental_end_date: endDate.toISOString(),
@@ -91,11 +91,11 @@ export default function RentCar({ auth, id }: IRentCarProps) {
             car_id: Number(id),
         };
         // debug
-        console.log("Data to be sent:", data);
+        console.log("Data to be sent:", formData);
 
         try {
-            //const response = await axios.post('/api/rent-car', data);
-            //console.log('Car rental request submitted:', response.data);
+            const response = await axios.post('/api/orders-store', formData);
+            console.log('Car rental request submitted:', response.data);
         } catch (error) {
             console.error('Error submitting car rental request:', error);
         }

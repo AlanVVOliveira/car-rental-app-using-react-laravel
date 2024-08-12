@@ -30,4 +30,5 @@ Route::get('/clients-index', [ClientController::class, 'index'])->name('clients.
 Route::post('/clients-store', [ClientController::class, 'store'])->name('clients.store');
 
 Route::get('/orders-index', [OrderController::class, 'index'])->name('orders.index');
+Route::post('/orders-store', [OrderController::class, 'store'])->name('orders.store');
 
