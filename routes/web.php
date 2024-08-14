@@ -44,21 +44,25 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('CarRegistration');
     })->name('car-registration');
     
-    /*Route::middleware(['auth', 'verified'])->get('/orders-index', function () {
-        return Inertia::render('RentCar');
-    })->name('rentcar');*/
-    
     Route::middleware(['auth', 'verified'])->get('/cars-show/{id}', function ($id) {
         return Inertia::render('RentCar', [
             'id' => $id
         ]);
     })->name('show-car');
 
-    /*
-        Route::middleware(['auth', 'verified'])->get('/cars-show/{id}', function ($id) {
-        return Inertia::render('ShowCar', ['id' => $id]);
-    })->name('show-car');
-    */
+
+    Route::middleware(['auth', 'verified'])->get('/cars-show2/{id}', function ($id) {
+        return Inertia::render('EditCar', [
+            'id' => $id
+        ]);
+    })->name('show2-car');
+
+
+    Route::middleware(['auth', 'verified'])->get('/cars-edit/{id}', function ($id) {
+        return Inertia::render('EditCar', [
+            'id' => $id
+        ]);
+    })->name('edit-car');
 
     Route::middleware(['auth', 'verified'])->get('/clients-index', function () {
         return Inertia::render('Clients');

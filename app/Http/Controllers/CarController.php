@@ -16,6 +16,12 @@ class CarController extends Controller
         return response()->json($cars);
     }
 
+    /*public function edit($id)
+    {
+        $car = Car::findOrFail($id);
+        return response()->json($car);
+    }*/
+
     public function store(Request $request)
     {
         try {

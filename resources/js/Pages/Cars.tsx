@@ -5,6 +5,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { ButtonDeleteCar } from '@/Components/ButtonDeleteCar';
 import { ButtonShowCar } from '@/Components/ButtonShowCar';
+import { ButtonEditCar } from '@/Components/ButtonEditCar';
 
 interface Car {
     id: number;
@@ -80,6 +81,12 @@ export default function Cars({ auth }: PageProps) {
                                     <th scope="col" className="px-6 py-3">
                                         #
                                     </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        #
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        #
+                                    </th>
                                 </tr>
                             </thead>
                             {cars.length > 0 ? (
@@ -114,6 +121,12 @@ export default function Cars({ auth }: PageProps) {
                                                 carId={car.id}>
                                                 Rent car
                                             </ButtonShowCar>
+                                        </td>
+                                        <td>
+                                            <ButtonEditCar
+                                                carId={car.id}>
+                                                Edit car
+                                            </ButtonEditCar>
                                         </td>
                                         <td>
                                             <ButtonDeleteCar
