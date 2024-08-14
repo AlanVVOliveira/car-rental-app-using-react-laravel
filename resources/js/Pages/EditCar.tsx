@@ -62,8 +62,8 @@ export default function EditCar({ auth, id }: IEditCarProps) {
     event.preventDefault();
 
     try {
-      //const response = await axios.post('/api/cars-store', formData);
-      //console.log('Form submitted successfully:', response.data);
+      const response = await axios.put(`/api/cars-update/${id}`, formData);
+      console.log('Form submitted successfully:', response.data);
     } catch (error) {
       console.error('Error submitting form:', error);
     }
