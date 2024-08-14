@@ -1,13 +1,13 @@
 import React from 'react';
 import { Inertia } from '@inertiajs/inertia';
 
-interface IButtonShowCarProps {
+interface IButtonRentCarProps {
     type?: "button";
     carId: number;
     children: React.ReactNode;
 }
 
-export const ButtonShowCar: React.FC<IButtonShowCarProps> = ({ type, carId, children }) => {
+export const ButtonRentCar: React.FC<IButtonRentCarProps> = ({ type, carId, children }) => {
     const handleShowCar = () => {
         if (carId) {
             Inertia.visit(`/cars-show/${carId}`);

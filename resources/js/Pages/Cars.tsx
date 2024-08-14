@@ -4,7 +4,7 @@ import { PageProps } from '@/types';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { ButtonDeleteCar } from '@/Components/ButtonDeleteCar';
-import { ButtonShowCar } from '@/Components/ButtonShowCar';
+import { ButtonRentCar } from '@/Components/ButtonRentCar';
 import { ButtonEditCar } from '@/Components/ButtonEditCar';
 
 interface Car {
@@ -117,10 +117,10 @@ export default function Cars({ auth }: PageProps) {
                                             {car.plate}
                                         </td>
                                         <td>
-                                            <ButtonShowCar
+                                            <ButtonRentCar
                                                 carId={car.id}>
                                                 Rent car
-                                            </ButtonShowCar>
+                                            </ButtonRentCar>
                                         </td>
                                         <td>
                                             <ButtonEditCar

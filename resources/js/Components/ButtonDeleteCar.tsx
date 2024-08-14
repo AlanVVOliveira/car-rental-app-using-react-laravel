@@ -11,9 +11,9 @@ interface IButtonDeleteCarProps {
 export const ButtonDeleteCar: React.FC<IButtonDeleteCarProps> = ({ type, carId, onCarUpdated, children }) => {
     const handleUpdate = async () => {
         try {
-            const response = await axios.put(`http://localhost:8000/api/cars-update/${carId}`, { isActive: 0 });
+            const response = await axios.put(`/api/cars-update/${carId}`, { isActive: 0 });
             if (response.status === 200) {
-                console.log('Car updated successfully');
+                console.log('Car deleted successfully');
                 onCarUpdated(carId);
             } else {
                 console.error('Error updating car');
