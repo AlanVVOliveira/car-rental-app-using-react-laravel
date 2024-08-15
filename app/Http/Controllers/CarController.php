@@ -6,6 +6,7 @@ use App\Models\Car;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class CarController extends Controller
 {
@@ -16,26 +17,75 @@ class CarController extends Controller
         return response()->json($cars);
     }
 
-    /*public function edit($id)
-    {
-        $car = Car::findOrFail($id);
-        return response()->json($car);
-    }*/
-
     public function store(Request $request)
     {
         try {
-            Car::create([
-                'manufacturer' => $request->input('manufacturer'),
-                'model' => $request->input('model'),
-                'exchange' => $request->input('exchange'),
-                'version' => $request->input('version'),
-                'fuel' => $request->input('fuel'),
-                'year' => $request->input('year'),
-                'dailyPrice' => $request->input('dailyPrice'),
-                'plate' => $request->input('plate'),
-            ]);
-            return response()->json(['message' => 'Successfully!']);
+
+            $rules = [
+                'manufacturer' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
+                'model' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
+                'exchange' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
+                'version' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
+                'fuel' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
+                'year' => 'required|regex:/^[\d]{4}$/',
+                'dailyPrice' => 'required|numeric|max:10',
+                'plate' => 'required|regex:/^[A-Z]{3}-?[A-J0-9]\d{4}$/'
+            ];
+            
+            $messages = [
+                'manufacturer.required' => 'Manufacturer name is required.',
+                'manufacturer.regex' => 'The manufacturers name may contain letters, numbers and spaces.',
+                'manufacturer.max' => 'The manufacturers name must be a maximum of 40 characters.',
+                'manufacturer.min' => 'The manufacturers name must have at least 2 characters.',
+
+                'model.required' => 'Model name is required.',
+                'model.regex' => 'The model name may contain letters, numbers and spaces.',
+                'model.max' => 'The model name must be a maximum of 40 characters.',
+                'model.min' => 'The model name must have at least 2 characters.',
+
+                'exchange.required' => 'Exchange is required.',
+                'exchange.regex' => 'The exchange reference may contain letters, numbers and spaces.',
+                'exchange.max' => 'The exchange reference must be a maximum of 40 characters.',
+                'exchange.min' => 'The exchange reference must have at least 2 characters.',
+
+                'version.required' => 'Version is required.',
+                'version.regex' => 'The version reference may contain letters, numbers and spaces.',
+                'version.max' => 'The version reference must be a maximum of 40 characters.',
+                'version.min' => 'The version reference must have at least 2 characters.',
+
+                'fuel.required' => 'Fuel is required.',
+                'fuel.regex' => 'The fuel reference may contain letters, numbers and spaces.',
+                'fuel.max' => 'The fuel reference must be a maximum of 40 characters.',
+                'fuel.min' => 'The fuel reference must have at least 2 characters.',
+
+                'year.required' => 'Year is required.',
+                'year.regex' => 'The year reference must contain 4 numbers.',
+
+                'dailyPrice.required' => 'The daily price is required.',
+                'dailyPrice.numeric' => 'The daily price must be a numeric value.',
+                'dailyPrice.max' => 'The daily price must have a maximum of 10 characters.',
+
+                'plate.required' => 'The plate is required.',
+                'plate.regex' => 'Accepts the old standard or the new Mercosur format. (AAA3333 or DVA-3F33).'
+            ];
+ 
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()]);
+            } else {
+                Car::create([
+                    'manufacturer' => $request->input('manufacturer'),
+                    'model' => $request->input('model'),
+                    'exchange' => $request->input('exchange'),
+                    'version' => $request->input('version'),
+                    'fuel' => $request->input('fuel'),
+                    'year' => $request->input('year'),
+                    'dailyPrice' => $request->input('dailyPrice'),
+                    'plate' => $request->input('plate'),
+                ]);
+                return response()->json(['message' => 'Successfully!']);
+            }
         } catch (Exception $e) {
             Log::error($e->getMessage());
             Log::info($request->all());
@@ -60,67 +110,70 @@ class CarController extends Controller
 
     public function update(Request $request, $id)
     {
-        /*try {
-            Car::updated([
-                'manufacturer' => $request->input('manufacturer'),
-                'model' => $request->input('model'),
-                'exchange' => $request->input('exchange'),
-                'version' => $request->input('version'),
-                'fuel' => $request->input('fuel'),
-                'year' => $request->input('year'),
-                'dailyPrice' => $request->input('dailyPrice'),
-                'plate' => $request->input('plate'),
-            ]);
-            return response()->json(['message' => 'Update Successfully!']);
+        try {
+            $car = Car::findOrFail($id);
+
+            $rules = [
+                'manufacturer' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
+                'model' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
+                'exchange' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
+                'version' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
+                'fuel' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
+                'year' => 'required|regex:/^[\d]{4}$/',
+                'dailyPrice' => 'required|numeric|max:10',
+                'plate' => 'required|regex:/^[A-Z]{3}-?[A-J0-9]\d{4}$/'
+            ];
+            
+            $messages = [
+                'manufacturer.required' => 'Manufacturer name is required.',
+                'manufacturer.regex' => 'The manufacturers name may contain letters, numbers and spaces.',
+                'manufacturer.max' => 'The manufacturers name must be a maximum of 40 characters.',
+                'manufacturer.min' => 'The manufacturers name must have at least 2 characters.',
+
+                'model.required' => 'Model name is required.',
+                'model.regex' => 'The model name may contain letters, numbers and spaces.',
+                'model.max' => 'The model name must be a maximum of 40 characters.',
+                'model.min' => 'The model name must have at least 2 characters.',
+
+                'exchange.required' => 'Exchange is required.',
+                'exchange.regex' => 'The exchange reference may contain letters, numbers and spaces.',
+                'exchange.max' => 'The exchange reference must be a maximum of 40 characters.',
+                'exchange.min' => 'The exchange reference must have at least 2 characters.',
+
+                'version.required' => 'Version is required.',
+                'version.regex' => 'The version reference may contain letters, numbers and spaces.',
+                'version.max' => 'The version reference must be a maximum of 40 characters.',
+                'version.min' => 'The version reference must have at least 2 characters.',
+
+                'fuel.required' => 'Fuel is required.',
+                'fuel.regex' => 'The fuel reference may contain letters, numbers and spaces.',
+                'fuel.max' => 'The fuel reference must be a maximum of 40 characters.',
+                'fuel.min' => 'The fuel reference must have at least 2 characters.',
+
+                'year.required' => 'Year is required.',
+                'year.regex' => 'The year reference must contain 4 numbers.',
+
+                'dailyPrice.required' => 'The daily price is required.',
+                'dailyPrice.numeric' => 'The daily price must be a numeric value.',
+                'dailyPrice.max' => 'The daily price must have a maximum of 10 characters.',
+
+                'plate.required' => 'The plate is required.',
+                'plate.regex' => 'Accepts the old standard or the new Mercosur format. (AAA3333 or DVA-3F33).'
+            ];
+ 
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()]);
+            } else {
+                $car->update($request->all());
+                return response()->json(['message' => 'Successfully!']);
+            }
         } catch (Exception $e) {
             Log::error($e->getMessage());
             Log::info($request->all());
             return response()->json(['message' => 'Error'], 500);
-        }*/
-
-        try {
-            $car = Car::findOrFail($id);
-
-            // Regras de validação dos dados do formulário
-            /*$rules = [
-                'name' => 'required|regex:/^[\pL\d\s.,-]*$/u|min:2|max:255',
-                'description' => 'required|min:2|max:255',
-                'price' => 'required|numeric|max:10',
-            ];
-            
-            $messages = [
-                'name.required' => 'O nome do produto é obrigatório.',
-                'name.regex' => 'O nome do produto pode conter letras, números e espaços.',
-                'name.max' => 'O nome do produto precisa ter no máximo 255 caracteres.',
-                'name.min' => 'O nome do produto precisa ter no mínimo 2 caracteres.',
-                'description.required' => 'A descrição do produto é obrigatória.',
-                'description.max' => 'A descrição precisa ter no máximo 255 caracteres.',
-                'description.min' => 'A descrição precisa ter no mínimo 2 caracteres.',
-                'price.required' => 'O preço do produto é obrigatório.',
-                'price.numeric' => 'O preço deve ser um valor numérico.',
-                'price.max' => 'O preço precisa ter no máximo 10 caracteres.'
-            ];*/
-
-            // Validação das entradas
-            //$validator = Validator::make($request->all(), $rules, $messages);
-
-            /*if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()], Response::HTTP_UNPROCESSABLE_ENTITY);
-            } else {*/
-                
-                // Lógica para atualizar os dados
-                $car->update($request->all());
-                return response()->json(['message' => 'Update Successfully!']);
-            //}
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
-            Log::info($request->all());
-            return response()->json(['message' => 'Erro ao processar atualização do produto. Por favor, tente novamente mais tarde.'], 500);
         }
-
-
-
-
     }
 
     public function show(Request $request, $id)
