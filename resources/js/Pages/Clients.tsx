@@ -77,6 +77,12 @@ export default function Clients({ auth }: PageProps) {
                                         <th scope="col" className="px-6 py-3">
                                             number_of_address
                                         </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            *
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            *
+                                        </th>
                                     </tr>
                                 </thead>
 
@@ -110,6 +116,12 @@ export default function Clients({ auth }: PageProps) {
                                             </td>
                                             <td className="px-6 py-4">
                                                 {client.number_of_address}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <button>Edit client</button>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <button>Remove client</button>
                                             </td>
                                         </tr>
                                     ))}
