@@ -71,6 +71,13 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['auth', 'verified'])->get('/clients-create', function () {
         return Inertia::render('CustomerRegistration');
     })->name('customer-registration');
+
+    Route::middleware(['auth', 'verified'])->get('/clients-edit/{id}', function ($id) {
+        return Inertia::render('EditClient', [
+            'id' => $id
+        ]);
+    })->name('edit-client');
+
 });
 
 require __DIR__.'/auth.php';
