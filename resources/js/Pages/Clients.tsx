@@ -3,6 +3,8 @@ import { Head } from '@inertiajs/react';
 import { PageProps } from '@/types';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { ButtonEditInfoClient } from '@/Components/ButtonEditInfoClient';
+import { ButtonDeleteClient } from '@/Components/ButtonDeleteClient';
 
 interface Client {
     id: number;
@@ -34,6 +36,10 @@ export default function Clients({ auth }: PageProps) {
 
         fetchData();
     }, []);
+
+    const updateClientInList = (clientId: number) => {
+        setClients(clients.map(client => client.id === clientId ? { ...client, isActive: false } : client));
+    };
 
     return (
         <AuthenticatedLayout
@@ -118,10 +124,17 @@ export default function Clients({ auth }: PageProps) {
                                                 {client.number_of_address}
                                             </td>
                                             <td className="px-6 py-4">
-                                                <button>Edit client</button>
+                                                <ButtonEditInfoClient
+                                                    clientId={client.id}>
+                                                    Edit Client
+                                                </ButtonEditInfoClient>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <button>Remove client</button>
+                                                <ButtonDeleteClient
+                                                    clientId={client.id}
+                                                    onClientUpdated={updateClientInList}>
+                                                    Remove client
+                                                </ButtonDeleteClient>
                                             </td>
                                         </tr>
                                     ))}

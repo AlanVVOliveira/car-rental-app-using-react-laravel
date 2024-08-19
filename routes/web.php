@@ -72,11 +72,11 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('CustomerRegistration');
     })->name('customer-registration');
 
-    Route::middleware(['auth', 'verified'])->get('/clients-edit/{id}', function ($id) {
+    Route::middleware(['auth', 'verified'])->get('/clients-show/{id}', function ($id) {
         return Inertia::render('EditClient', [
             'id' => $id
         ]);
-    })->name('edit-client');
+    })->name('show-client');
 
 });
 

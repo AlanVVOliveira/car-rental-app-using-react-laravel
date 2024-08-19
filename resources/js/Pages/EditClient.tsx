@@ -39,7 +39,7 @@ export default function EditClient({ auth, id }: IEditClientProps) {
     const fetchClientData = async () => {
       if (id) {
         try {
-          const response = await axios.get(`http://localhost:8000/api/routeIsHere/${id}`);
+          const response = await axios.get(`http://localhost:8000/api/clients-show/${id}`);
           setFormData(response.data);
         } catch (error) {
           console.error('Error fetching car data:', error);
@@ -64,7 +64,7 @@ export default function EditClient({ auth, id }: IEditClientProps) {
     event.preventDefault();
 
     try {
-      const response = await axios.put(`/api/routeIsHere/${id}`, formData);
+      const response = await axios.put(`/api/clients-update/${id}`, formData);
       console.log('Form submitted successfully:', response.data);
     } catch (error) {
       console.error('Error submitting form:', error);

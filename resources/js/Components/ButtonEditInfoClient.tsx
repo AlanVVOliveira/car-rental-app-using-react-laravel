@@ -10,7 +10,7 @@ interface IButtonEditInfoClientProps {
 export const ButtonEditInfoClient: React.FC<IButtonEditInfoClientProps> = ({ type, clientId, children }) => {
     const handleEditInfoClient = () => {
         if (clientId) {
-            Inertia.visit(`/createRoute/${clientId}`);
+            Inertia.visit(`/clients-show/${clientId}`);
         } else {
             console.error('Client ID is not defined');
         }

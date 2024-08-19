@@ -29,8 +29,9 @@ Route::put('/cars-update/{id}', [CarController::class, 'update'])->name('cars.up
 
 Route::get('/clients-index', [ClientController::class, 'index'])->name('clients.index');
 Route::post('/clients-store', [ClientController::class, 'store'])->name('clients.store');
-Route::put('/clients-update-status/{id}', [ClientController::class, 'updateStatusActiveOfClient'])->name('client.updateStatus');
-Route::get('/clients-show/{id}', [ClientController::class, 'show'])->name('client.show');
+Route::put('/clients-update-status/{id}', [ClientController::class, 'updateStatusActiveOfClient'])->name('clients.updateStatus');
+Route::get('/clients-show/{id}', [ClientController::class, 'show'])->name('clients.show');
+Route::put('/clients-update/{id}', [ClientController::class, 'update'])->name('clients.update');
 
 Route::get('/orders-index', [OrderController::class, 'index'])->name('orders.index');
 Route::post('/orders-store', [OrderController::class, 'store'])->name('orders.store');

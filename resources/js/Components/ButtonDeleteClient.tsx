@@ -11,7 +11,7 @@ interface IButtonDeleteClientProps {
 export const ButtonDeleteClient: React.FC<IButtonDeleteClientProps> = ({ type, clientId, onClientUpdated, children }) => {
     const handleUpdate = async () => {
         try {
-            const response = await axios.put(`/api/createRoute/${clientId}`, { isActive: 0 });
+            const response = await axios.put(`/api/clients-update-status/${clientId}`, { isActive: 0 });
             if (response.status === 200) {
                 console.log('Client deleted successfully');
                 onClientUpdated(clientId);
