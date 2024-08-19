@@ -123,13 +123,13 @@ export default function Clients({ auth }: PageProps) {
                                             <td className="px-6 py-4">
                                                 {client.number_of_address}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td>
                                                 <ButtonEditInfoClient
                                                     clientId={client.id}>
                                                     Edit Client
                                                 </ButtonEditInfoClient>
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td>
                                                 <ButtonDeleteClient
                                                     clientId={client.id}
                                                     onClientUpdated={updateClientInList}>
