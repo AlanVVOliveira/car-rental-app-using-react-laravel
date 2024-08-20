@@ -5,17 +5,20 @@ interface IRadioOptionProps {
     label: string;
 }
 
-export const CarFilterInput = () => {
-    const [selectedValue, setSelectedValue] = useState<string>('option1');
+interface CarFilterInputProps {
+    onFilterChange: (selectedValue: string) => void;
+    selectedFilter: string;
+}
 
+export const CarFilterInput: React.FC<CarFilterInputProps> = ({ onFilterChange, selectedFilter }) => {
     const options: IRadioOptionProps[] = [
-        { value: 'option1', label: 'Opção 1' },
-        { value: 'option2', label: 'Opção 2' },
-        { value: 'option3', label: 'Opção 3' },
+        { value: 'all', label: 'All cars' },
+        { value: 'available', label: 'Available Cars' },
+        { value: 'rented', label: 'Rented' },
     ];
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedValue(event.target.value);
+        onFilterChange(event.target.value);
     };
 
     return (
@@ -28,7 +31,7 @@ export const CarFilterInput = () => {
                                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                                 type="radio"
                                 value={option.value}
-                                checked={selectedValue === option.value}
+                                checked={selectedFilter  === option.value}
                                 onChange={handleChange}
                             />
                             <label htmlFor="all_cars" className="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{option.label}</label>

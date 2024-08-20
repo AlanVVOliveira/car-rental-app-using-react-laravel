@@ -12,7 +12,21 @@ class CarController extends Controller
 {
     public function index(Request $request)
     {
+        $cars = Car::where('isActive', 1)->get();
+
+        return response()->json($cars);
+    }
+
+    public function indexAvailableCars(Request $request)
+    {
         $cars = Car::where('isAvailable', 1)->where('isActive', 1)->get();
+
+        return response()->json($cars);
+    }
+
+    public function indexRentedCars(Request $request)
+    {
+        $cars = Car::where('isAvailable', 0)->where('isActive', 1)->get();
 
         return response()->json($cars);
     }

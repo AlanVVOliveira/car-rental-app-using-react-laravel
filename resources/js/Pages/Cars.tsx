@@ -8,7 +8,7 @@ import { ButtonRentCar } from '@/Components/ButtonRentCar';
 import { ButtonEditCar } from '@/Components/ButtonEditCar';
 import { CarFilterInput } from '@/Components/CarFilterInput';
 
-interface Car {
+interface ICarProps {
     id: number;
     manufacturer: string;
     model: string;
@@ -21,22 +21,28 @@ interface Car {
 }
 
 export default function Cars({ auth }: PageProps) {
+    const [cars, setCars] = useState<ICarProps[]>([]);
+    const [selectedFilter, setSelectedFilter] = useState<string>('all');
 
-    const [cars, setCars] = useState<Car[]>([]);
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/api/cars-index');
+                let url = 'http://localhost:8000/api/cars-index';
+                if (selectedFilter === 'available') {
+                     url = 'http://localhost:8000/api/cars-indexAvailableCars';
+                } else if (selectedFilter === 'rented') {
+                    url = 'http://localhost:8000/api/cars-indexRentedCars';
+                }
+
+                const response = await axios.get(url);
                 setCars(response.data);
-                console.log(response.data);
-                console.log('log do fech' + cars);
             } catch (error) {
                 console.error('Error fetching cars:', error);
             }
         };
 
         fetchData();
-    }, []);
+    }, [selectedFilter]);
 
     const updateCarInList = (carId: number) => {
         setCars(cars.map(car => car.id === carId ? { ...car, isActive: false } : car));
@@ -51,10 +57,7 @@ export default function Cars({ auth }: PageProps) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    {/* IMPLEMENTANDO RADIO */}
-                    <CarFilterInput/>
-
-                    {/* FIM */}
+                <CarFilterInput onFilterChange={setSelectedFilter} selectedFilter={selectedFilter} />
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
