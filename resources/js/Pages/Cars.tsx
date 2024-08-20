@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { ButtonDeleteCar } from '@/Components/ButtonDeleteCar';
 import { ButtonRentCar } from '@/Components/ButtonRentCar';
 import { ButtonEditCar } from '@/Components/ButtonEditCar';
+import { CarFilterInput } from '@/Components/CarFilterInput';
 
 interface Car {
     id: number;
@@ -50,6 +51,10 @@ export default function Cars({ auth }: PageProps) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    {/* IMPLEMENTANDO RADIO */}
+                    <CarFilterInput/>
+
+                    {/* FIM */}
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
