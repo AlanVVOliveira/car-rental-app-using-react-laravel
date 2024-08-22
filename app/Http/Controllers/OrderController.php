@@ -15,10 +15,16 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         try {
-            $cars = Car::where('isAvailable', 1)->where('isActive', 1)->get();
+            $cars = Car::where('isActive', 1)->get();
             $clients = Client::where('isActive', 1)->get();
+            $orders = Order::all();
 
-            return response()->json($cars, $clients); 
+            /*return response()->json([
+                //'cars' => $cars,
+                //'clients' => $clients,
+                'orders' => $orders
+            ]);*/
+            return response()->json(['clients' => $clients, 'cars' => $cars, 'orders' => $orders]);
         } catch (Exception $e) {
             Log::error($e->getMessage());
             Log::info($request->all());

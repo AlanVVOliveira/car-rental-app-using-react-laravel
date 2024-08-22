@@ -78,6 +78,10 @@ Route::middleware('auth')->group(function () {
         ]);
     })->name('show-client');
 
+    Route::middleware(['auth', 'verified'])->get('/orders-index', function () {
+        return Inertia::render('RentalManagement');
+    })->name('rental-management');
+
 });
 
 require __DIR__.'/auth.php';

@@ -51,6 +51,12 @@ export default function Authenticated({ user, header, children }: PropsWithChild
                                 </NavLink>
                             </div>
 
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink href={route('rental-management')} active={route().current('rental-management')}>                    
+                                    Rental Management
+                                </NavLink>
+                            </div>
+
                             
                             {/*<div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink href={route('rentcar')} active={route().current('rentcar')}>                    
