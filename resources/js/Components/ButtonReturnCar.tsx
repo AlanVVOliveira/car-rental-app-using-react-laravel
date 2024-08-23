@@ -11,7 +11,7 @@ interface IButtonReturnCarProps {
 export const ButtonReturnCar: React.FC<IButtonReturnCarProps> = ({ type, orderId, onOrderUpdatedIsActive, children }) => {
     const handleReturn = async () => {
         try {
-            const response = await axios.put(`/api/routeIsHere/${orderId}`, { isActive: 0 });
+            const response = await axios.put(`/api/orders-update-status/${orderId}`, { isActive: 0 });
             if (response.status === 200) {
                 console.log('Return car successfully');
                 onOrderUpdatedIsActive(orderId);

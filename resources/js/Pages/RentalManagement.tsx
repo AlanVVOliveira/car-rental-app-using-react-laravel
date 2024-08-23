@@ -3,10 +3,7 @@ import { Head } from '@inertiajs/react';
 import { PageProps } from '@/types';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { ButtonDeleteCar } from '@/Components/ButtonDeleteCar';
-import { ButtonRentCar } from '@/Components/ButtonRentCar';
-import { ButtonEditCar } from '@/Components/ButtonEditCar';
-import { CarFilterInput } from '@/Components/CarFilterInput';
+import { ButtonReturnCar } from '@/Components/ButtonReturnCar';
 
 interface ICarProps {
     id: number;
@@ -83,9 +80,9 @@ export default function RentalManagement({ auth }: PageProps) {
         console.log('Orders updated:', orders);
     }, [orders]);
 
-    {/*const updateCarInList = (carId: number) => {
-        setCars(cars.map(car => car.id === carId ? { ...car, isActive: false } : car));
-    };*/}
+    const updateOrderInList = (orderId: number) => {
+        setOrders(orders.map(order => order.id === orderId ? { ...order, isActive: 0 } : order));
+    };
 
     return (
         <AuthenticatedLayout
@@ -145,7 +142,7 @@ export default function RentalManagement({ auth }: PageProps) {
                                         if (order.isActive == 1) {
                                             statusRent = 'Rented';
                                             //return 'Rented'
-                                        }
+                                        } 
 
                                         return (
                                             <tr key={order.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -173,6 +170,13 @@ export default function RentalManagement({ auth }: PageProps) {
                                                 <td className="px-6 py-4">
                                                     {statusRent}
                                                 </td>
+                                                <td className="px-6 py-4">
+                                                    <ButtonReturnCar 
+                                                        orderId={order.id}
+                                                        onOrderUpdatedIsActive={updateOrderInList}>
+                                                        Return car
+                                                    </ButtonReturnCar>
+                                                </td>
                                             </tr>
                                         );
                                     })}
@@ -180,7 +184,7 @@ export default function RentalManagement({ auth }: PageProps) {
                                 :
                                 (
                                     <div>
-                                        <p>No cars found.</p>
+                                        <p>No rent's found.</p>
                                     </div>
                                 )}
 

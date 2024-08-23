@@ -37,4 +37,4 @@ Route::put('/clients-update/{id}', [ClientController::class, 'update'])->name('c
 
 Route::get('/orders-index', [OrderController::class, 'index'])->name('orders.index');
 Route::post('/orders-store', [OrderController::class, 'store'])->name('orders.store');
-Route::put('/orders-update-status/{id}', [OrderController::class, 'updateStatusActiveOfClient'])->name('orders.updateStatus');
+Route::put('/orders-update-status/{id}', [OrderController::class, 'updateStatusActiveOfOrder'])->name('orders.updateStatus');

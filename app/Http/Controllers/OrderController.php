@@ -8,6 +8,7 @@ use App\Models\Order;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
@@ -17,7 +18,7 @@ class OrderController extends Controller
         try {
             $cars = Car::where('isActive', 1)->get();
             $clients = Client::where('isActive', 1)->get();
-            $orders = Order::all();
+            $orders = Order::where('isActive', 1)->get();
 
             /*return response()->json([
                 //'cars' => $cars,
@@ -66,8 +67,15 @@ class OrderController extends Controller
             $order = Order::findOrFail($id);
             $order->isActive = 0;
             $order->save();
+    
+            $car = $order->car;
+            if ($car) {
+                $car->isAvailable = 1;
+                $car->save();
+            }
 
             return response()->json(['message' => 'Successfully!']);
+            
         } catch (Exception $e) {
             Log::error($e->getMessage());
             Log::info($request->all());
