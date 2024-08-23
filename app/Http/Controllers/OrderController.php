@@ -59,4 +59,19 @@ class OrderController extends Controller
             return response()->json(['message' => 'Error'], 500);
         }
     }
+
+    public function updateStatusActiveOfOrder(Request $request, $id)
+    {
+        try {
+            $order = Order::findOrFail($id);
+            $order->isActive = 0;
+            $order->save();
+
+            return response()->json(['message' => 'Successfully!']);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            Log::info($request->all());
+            return response()->json(['message' => 'Error'], 500);
+        }
+    }
 }
