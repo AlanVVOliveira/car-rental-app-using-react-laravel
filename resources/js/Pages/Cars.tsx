@@ -29,7 +29,7 @@ export default function Cars({ auth }: PageProps) {
             try {
                 let url = 'http://localhost:8000/api/cars-index';
                 if (selectedFilter === 'available') {
-                     url = 'http://localhost:8000/api/cars-indexAvailableCars';
+                    url = 'http://localhost:8000/api/cars-indexAvailableCars';
                 } else if (selectedFilter === 'rented') {
                     url = 'http://localhost:8000/api/cars-indexRentedCars';
                 }
@@ -57,7 +57,7 @@ export default function Cars({ auth }: PageProps) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <CarFilterInput onFilterChange={setSelectedFilter} selectedFilter={selectedFilter} />
+                    <CarFilterInput onFilterChange={setSelectedFilter} selectedFilter={selectedFilter} />
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
