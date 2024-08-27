@@ -31,6 +31,7 @@ export default function RentCar({ auth, id }: IRentCarProps) {
     const [dailyRentalValue, setDailyRentalValue] = useState<number | null>(null);
     const [totalRentalValue, setTotalRentalValue] = useState<number | null>(null);
     const urlApi = 'http://localhost:8000/api/clients-index';
+    const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
 
     function calculateDaysDifference(startDate: Date, endDate: Date): number {
         // Calculates the difference in milliseconds
@@ -101,13 +102,27 @@ export default function RentCar({ auth, id }: IRentCarProps) {
         }
     };
 
+    const handleConfirm = (event: any) => {
+        event.preventDefault()
+        setIsConfirmDialogOpen(true);
+    };
+
+    const handleCancel = () => {
+        setIsConfirmDialogOpen(false);
+    };
+
+    const handleSubmit = () => {
+        setIsConfirmDialogOpen(false);
+        handleFormSubmit(event);
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Rent Car</h2>}
         >
             <Head title="Rent Car" />
-            <form onSubmit={handleFormSubmit}>
+            <form onSubmit={handleConfirm}>
                 <div className="py-12">
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -183,7 +198,6 @@ export default function RentCar({ auth, id }: IRentCarProps) {
                         </div>
                         <div>
                             <button
-                                type="submit"
                                 className="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase 
                                     leading-normal text-neutral-50 shadow-dark-3 transition duration-150 ease-in-out hover:bg-neutral-700 
                                     hover:shadow-dark-2 focus:bg-neutral-700 focus:shadow-dark-2 focus:outline-none focus:ring-0 
@@ -191,6 +205,25 @@ export default function RentCar({ auth, id }: IRentCarProps) {
                                     dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
                                 Confirm
                             </button>
+                            {isConfirmDialogOpen && (
+                                <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+                                    <div className="bg-white p-4 rounded-lg shadow-lg">
+                                        <p className="text-center text-lg font-semibold">Do you confirm the rental of this car?</p>
+                                        <div className="flex justify-center mt-4">
+                                            <button 
+                                            className="mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
+                                            onClick={handleSubmit}
+                                            type="submit">
+                                                Yes, I confirm!
+                                            </button>
+                                            <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" 
+                                            onClick={handleCancel}>
+                                                No, cancel to operation!
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
