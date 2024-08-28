@@ -32,6 +32,8 @@ export default function EditCar({ auth, id }: IEditCarProps) {
     plate: '',
   });
 
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+
   // Fetch car data when the component mounts
   useEffect(() => {
     const fetchCarData = async () => {
@@ -58,8 +60,9 @@ export default function EditCar({ auth, id }: IEditCarProps) {
     }));
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: any)/*(event: React.FormEvent<HTMLFormElement>)*/ => {
     event.preventDefault();
+    setIsConfirmDialogOpen(false);
 
     try {
       const response = await axios.put(`/api/cars-update/${id}`, formData);
@@ -73,6 +76,15 @@ export default function EditCar({ auth, id }: IEditCarProps) {
     console.log('FormData updated:', formData);
   }, [formData]);
 
+  const handleConfirm = (event: any) => {
+    event.preventDefault()
+    setIsConfirmDialogOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsConfirmDialogOpen(false);
+  };
+
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -83,7 +95,7 @@ export default function EditCar({ auth, id }: IEditCarProps) {
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
+            <form onSubmit={handleConfirm} className="max-w-sm mx-auto">
 
               <div className="mb-5">
                 <label htmlFor="manufacturer" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -222,12 +234,29 @@ export default function EditCar({ auth, id }: IEditCarProps) {
               </div>
 
               <button
-                type="submit"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
               focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 
               text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Submit
               </button>
+              {isConfirmDialogOpen && (
+                                <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+                                    <div className="bg-white p-4 rounded-lg shadow-lg">
+                                        <p className="text-center text-lg font-semibold">Do you confirm the rental of this car?</p>
+                                        <div className="flex justify-center mt-4">
+                                            <button 
+                                            className="mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
+                                            onClick={handleSubmit}>
+                                                Yes, I confirm!
+                                            </button>
+                                            <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" 
+                                            onClick={handleCancel}>
+                                                No, cancel to operation!
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
             </form>
 
           </div>

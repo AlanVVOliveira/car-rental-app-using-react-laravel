@@ -43,7 +43,6 @@ class CarController extends Controller
                 'fuel' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
                 'year' => 'required|regex:/^[\d]{4}$/',
                 'dailyPrice' => 'required|numeric|max:9999999999',
-                //'plate' => 'required|regex:/^(?:[A-Za-z]{3}\d{4}|[A-Za-z]{3}\d[A-Za-z]\d{2})$/'
                 'plate' => 'required|regex:/^[A-Za-z]{3}\d{4}$/'
             ];
             
@@ -128,8 +127,8 @@ class CarController extends Controller
                 'version' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
                 'fuel' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
                 'year' => 'required|regex:/^[\d]{4}$/',
-                'dailyPrice' => 'required|numeric|max:10',
-                'plate' => 'required|regex:/^[A-Z]{3}-?[A-J0-9]\d{4}$/'
+                'dailyPrice' => 'required|numeric|max:9999999999',
+                'plate' => 'required|regex:/^[A-Za-z]{3}\d{4}$/'
             ];
             
             $messages = [
