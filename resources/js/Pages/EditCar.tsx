@@ -1,5 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import { Inertia } from '@inertiajs/inertia';
 import { PageProps } from '@/types';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
@@ -81,8 +82,11 @@ export default function EditCar({ auth, id }: IEditCarProps) {
     try {
       const response = await axios.put(`/api/cars-update/${id}`, formData);
       console.log('Form submitted successfully:', response.data);
+
       if (response.data.message == 'Successfully!') {
         setShowSuccessAlert(true);
+        Inertia.visit(`/cars-index`);
+        
       } else {
         if (response.data.errors.manufacturer) setManufacturerError(response.data.errors.manufacturer);
         if (response.data.errors.model) setModelError;
