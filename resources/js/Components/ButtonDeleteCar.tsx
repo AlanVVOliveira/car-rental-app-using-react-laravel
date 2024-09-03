@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Inertia } from '@inertiajs/inertia';
 
 interface IButtonDeleteCarProps {
     type?: "button";
@@ -17,6 +18,7 @@ export const ButtonDeleteCar: React.FC<IButtonDeleteCarProps> = ({ type, carId, 
             if (response.status === 200) {
                 console.log('Car deleted successfully');
                 onCarUpdated(carId);
+                Inertia.reload();
             } else {
                 console.error('Error updating car');
             }

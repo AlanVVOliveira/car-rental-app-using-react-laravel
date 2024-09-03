@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Inertia } from '@inertiajs/inertia';
 
 interface IButtonDeleteClientProps {
     type?: "button";
@@ -16,6 +17,7 @@ export const ButtonDeleteClient: React.FC<IButtonDeleteClientProps> = ({ type, c
             if (response.status === 200) {
                 console.log('Client deleted successfully');
                 onClientUpdated(clientId);
+                Inertia.reload();
             } else {
                 console.error('Error updating client');
             }
