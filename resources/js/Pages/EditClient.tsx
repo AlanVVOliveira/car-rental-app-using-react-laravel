@@ -99,7 +99,6 @@ export default function EditClient({ auth, id }: IEditClientProps) {
       } else {
         if (response.data.errors.full_name) {
           setFullNameError(response.data.errors.full_name);
-          console.log('chegou em full name')
         } else {
           setFullNameError("");
         }

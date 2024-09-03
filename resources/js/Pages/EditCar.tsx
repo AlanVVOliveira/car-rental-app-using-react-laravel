@@ -73,29 +73,72 @@ export default function EditCar({ auth, id }: IEditCarProps) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const errorMsg = document.getElementById('error_msg');
-    if (errorMsg) {
-      errorMsg.innerHTML = '';
-    }
-
     try {
       const response = await axios.put(`/api/cars-update/${id}`, formData);
       console.log('Form submitted successfully:', response.data);
 
       if (response.data.message == 'Successfully!') {
+        setManufacturerError("");
+        setModelError("");
+        setExchangeError("");
+        setVersionError("");
+        setFuelError("");
+        setYearError("");
+        setDailyPriceError("");
+        setPlateError("");
         setShowSuccessAlert(true);
+
+        // redirect to index page
         Inertia.visit(`/cars-index`);
-        
+
       } else {
-        if (response.data.errors.manufacturer) setManufacturerError(response.data.errors.manufacturer);
-        if (response.data.errors.model) setModelError;
-        if (response.data.errors.exchange) setExchangeError(response.data.errors.exchange)
-        if (response.data.errors.version) setVersionError(response.data.errors.version)
-        if (response.data.errors.fuel) setFuelError(response.data.errors.fuel)
-        if (response.data.errors.year) setYearError(response.data.errors.year)
-        if (response.data.errors.dailyPrice) setDailyPriceError(response.data.errors.dailyPrice)
-        if (response.data.errors.plate) setPlateError(response.data.errors.plate)
+        if (response.data.errors.manufacturer) {
+          setManufacturerError(response.data.errors.manufacturer);
+        } else {
+          setManufacturerError("");
+        }
+
+        if (response.data.errors.model) {
+          setModelError(response.data.errors.model);
+        } else {
+          setModelError("");
+        }
+
+        if (response.data.errors.exchange) {
+          setExchangeError(response.data.errors.exchange)
+        } else {
+          setExchangeError("");
+        }
+          
+        if (response.data.errors.version) {
+           setVersionError(response.data.errors.version)
+        } else {
+          setVersionError("");
+        }
+         
+        if (response.data.errors.fuel) {
+          setFuelError(response.data.errors.fuel);
+        } else { 
+          setFuelError("");
+        }
+
+        if (response.data.errors.year) {
+          setYearError(response.data.errors.year);
+        } else {
+          setYearError("");
+        }
+
+        if (response.data.errors.dailyPrice) {
+          setDailyPriceError(response.data.errors.dailyPrice);
+        } else {
+          setDailyPriceError("");
+        }
+          
+        if (response.data.errors.plate) {
+          setPlateError(response.data.errors.plate);
+        } else {
+          setPlateError("");
+        }
       }
 
     } catch (error) {
