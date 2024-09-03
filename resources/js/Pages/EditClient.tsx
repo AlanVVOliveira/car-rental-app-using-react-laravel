@@ -1,10 +1,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import { Inertia } from '@inertiajs/inertia';
 import { PageProps } from '@/types';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { CustomAlert } from '@/Components/CustomAlert';
 
-// POST
 interface FormData {
   full_name: string;
   gender: string;
@@ -34,6 +35,20 @@ export default function EditClient({ auth, id }: IEditClientProps) {
     number_of_address: 0,
   });
 
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+
+  // Error variables list
+  const [fullNameError, setFullNameError] = useState("");
+  const [genderError, setGenderError] = useState("");
+  const [cpfError, setCpfError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [countryError, setCountryError] = useState("");
+  const [stateError, setStateError] = useState("");
+  const [cityError, setCityError] = useState("");
+  const [streetOrAvenueError, setStreetOrAvenueError] = useState("");
+  const [numberOfAddressError, setNumberOfAddressError] = useState("");
+
   // Fetch car data when the component mounts
   useEffect(() => {
     const fetchClientData = async () => {
@@ -62,12 +77,84 @@ export default function EditClient({ auth, id }: IEditClientProps) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     try {
       const response = await axios.put(`/api/clients-update/${id}`, formData);
       console.log('Form submitted successfully:', response.data);
+
+      if (response.data.message == 'Successfully!') {
+        setFullNameError("");
+        setGenderError("");
+        setCpfError("");
+        setPhoneError("");
+        setCountryError("");
+        setStateError("");
+        setCityError("");
+        setStreetOrAvenueError("");
+        setNumberOfAddressError("");
+        setShowSuccessAlert(true);
+
+        // redirect to index page
+        Inertia.visit(`/clients-index`);
+        
+      } else {
+        if (response.data.errors.full_name) {
+          setFullNameError(response.data.errors.full_name);
+          console.log('chegou em full name')
+        } else {
+          setFullNameError("");
+        }
+
+        if (response.data.errors.gender) {
+          setGenderError(response.data.gender);
+        } else {
+          setGenderError("");
+        }
+
+        if (response.data.errors.cpf) {
+          setCpfError(response.data.errors.cpf);
+        } else {
+          setCpfError("");
+        }
+
+        if (response.data.errors.phone) {
+          setPhoneError(response.data.errors.phone);
+        } else {
+          setPhoneError("");
+        }
+
+        if (response.data.errors.country) {
+          setCountryError(response.data.errors.country);
+        } else {
+          setCountryError("");
+        }
+
+        if (response.data.errors.state) {
+          setStateError(response.data.errors.state);
+        } else {
+          setStateError("");
+        }
+
+        if (response.data.errors.city) {
+          setCityError(response.data.errors.city);
+        } else {
+          setCityError("");
+        }
+
+        if (response.data.errors.street_or_avenue) {
+          setStreetOrAvenueError(response.data.errors.street_or_avenue);
+        } else {
+          setStreetOrAvenueError("");
+        }
+
+        if (response.data.errors.number_of_address) {
+          setNumberOfAddressError(response.data.errors.number_of_address);
+        } else {
+          setNumberOfAddressError("");
+        }
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
+      setShowErrorAlert(true);
     }
   };
 
@@ -102,6 +189,7 @@ export default function EditClient({ auth, id }: IEditClientProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{fullNameError}</span>
               </div>
 
               <div className="mb-5">
@@ -119,6 +207,7 @@ export default function EditClient({ auth, id }: IEditClientProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{genderError}</span>
               </div>
 
               <div className="mb-5">
@@ -136,6 +225,7 @@ export default function EditClient({ auth, id }: IEditClientProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{cpfError}</span>
               </div>
 
               <div className="mb-5">
@@ -153,6 +243,7 @@ export default function EditClient({ auth, id }: IEditClientProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{phoneError}</span>
               </div>
 
               <div className="mb-5">
@@ -170,6 +261,7 @@ export default function EditClient({ auth, id }: IEditClientProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{countryError}</span>
               </div>
 
               <div className="mb-5">
@@ -187,6 +279,7 @@ export default function EditClient({ auth, id }: IEditClientProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{stateError}</span>
               </div>
 
               <div className="mb-5">
@@ -204,6 +297,7 @@ export default function EditClient({ auth, id }: IEditClientProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{cityError}</span>
               </div>
 
               <div className="mb-5">
@@ -221,6 +315,7 @@ export default function EditClient({ auth, id }: IEditClientProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{streetOrAvenueError}</span>
               </div>
 
               <div className="mb-5">
@@ -238,6 +333,7 @@ export default function EditClient({ auth, id }: IEditClientProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{numberOfAddressError}</span>
               </div>
 
               <button
@@ -248,6 +344,16 @@ export default function EditClient({ auth, id }: IEditClientProps) {
                 Submit
               </button>
             </form>
+
+            <div className="flex justify-center">
+              {showSuccessAlert && <CustomAlert
+                className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-300 dark:bg-gray-800 dark:text-green-400-"
+                message="Successfully updated client" type="success" />}
+
+              {showErrorAlert && <CustomAlert
+                className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400-"
+                message="Unable to update the client, please try again." type="error" />}
+            </div>
 
           </div>
         </div>
