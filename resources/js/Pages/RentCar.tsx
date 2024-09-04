@@ -5,6 +5,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PageProps } from '@/types';
 import { CustomerSelectionOptions } from '@/Components/CustomerSelectionOptions';
 import { Datepicker } from '@/Components/Datepicker';
+import { CustomAlert } from '@/Components/CustomAlert';
+import { Inertia } from '@inertiajs/inertia';
 
 interface Car {
     id: number;
@@ -32,6 +34,11 @@ export default function RentCar({ auth, id }: IRentCarProps) {
     const [totalRentalValue, setTotalRentalValue] = useState<number | null>(null);
     const urlApi = 'http://localhost:8000/api/clients-index';
     const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+    const [datepickerError, setDatepickerError] = useState("");
+
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [showErrorAlert, setShowErrorAlert] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
 
     function calculateDaysDifference(startDate: Date, endDate: Date): number {
         // Calculates the difference in milliseconds
@@ -45,8 +52,15 @@ export default function RentCar({ auth, id }: IRentCarProps) {
 
     useEffect(() => {
         if (startDate && endDate) {
-            const calculatedDifference = calculateDaysDifference(startDate, endDate);
-            setTotalRentalDays(calculatedDifference);
+            if (endDate <= startDate) {
+                setDatepickerError("Select a valid date (min. 1 day)");
+                setTotalRentalDays(0);
+                setTotalRentalValue(0);
+            } else {
+                setDatepickerError("");
+                const calculatedDifference = calculateDaysDifference(startDate, endDate);
+                setTotalRentalDays(calculatedDifference);
+            }
         }
     }, [startDate, endDate]);
 
@@ -76,28 +90,45 @@ export default function RentCar({ auth, id }: IRentCarProps) {
 
     const handleFormSubmit = async (event: any) => {
         event.preventDefault();
-
-        if (!startDate || !endDate) {
-            console.error("Start or end date is missing");
-            return;
-        }
-
-        // Prepare the data to send
-        const formData = {
-            client_id: selectedClientId,
-            rental_start_date: startDate.toISOString(),
-            rental_end_date: endDate.toISOString(),
-            number_of_rent_days: totalRentalDays,
-            total: totalRentalValue,
-            car_id: Number(id),
-        };
-        // debug
-        console.log("Data to be sent:", formData);
-
         try {
-            const response = await axios.post('/api/orders-store', formData);
-            console.log('Car rental request submitted:', response.data);
+
+            
+            setErrorMsg("");
+            setShowErrorAlert(false);
+            if (!startDate || !endDate) {
+                console.error("Start or end date is missing");
+                setShowErrorAlert(true);
+            } else {
+                //setShowErrorAlert(false);
+                
+                // Prepare the data to send
+                const formData = {
+                    client_id: selectedClientId,
+                    rental_start_date: startDate.toISOString(),
+                    rental_end_date: endDate.toISOString(),
+                    number_of_rent_days: totalRentalDays,
+                    total: totalRentalValue,
+                    car_id: Number(id),
+                };
+                // debug
+                console.log("Data to be sent:", formData);
+                const response = await axios.post('/api/orders-store', formData);
+                console.log('Car rental request submitted:', response.data);
+                
+                if (response.data.error) {
+                    setErrorMsg(response.data.error)
+                    setShowErrorAlert(true);
+                } else {
+                    setDatepickerError("");
+                    setShowSuccessAlert(true);
+                    
+                    // redirect to index page
+                    Inertia.visit(`/orders-index`);
+                }
+            }
+
         } catch (error) {
+            setShowErrorAlert(true);
             console.error('Error submitting car rental request:', error);
         }
     };
@@ -171,14 +202,15 @@ export default function RentCar({ auth, id }: IRentCarProps) {
                             dark:text-gray-400">
                                 Pick-up Date
                             </label><br />
-                            <Datepicker date={startDate} onDateChange={setStartDate} />
+                            <Datepicker date={startDate} onDateChange={setStartDate} allowCurrentDate={true} />
                         </div>
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
                             dark:text-gray-400">
                                 Drop-off Date
                             </label><br />
-                            <Datepicker date={endDate} onDateChange={setEndDate} />
+                            <Datepicker date={endDate} onDateChange={setEndDate} allowCurrentDate={false} />
+                            <span id="error_msg" className="text-red-500 text-xs italic">{datepickerError}</span>
                         </div>
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <label className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 
@@ -210,14 +242,14 @@ export default function RentCar({ auth, id }: IRentCarProps) {
                                     <div className="bg-white p-4 rounded-lg shadow-lg">
                                         <p className="text-center text-lg font-semibold">Do you confirm the rental of this car?</p>
                                         <div className="flex justify-center mt-4">
-                                            <button 
-                                            className="mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
-                                            onClick={handleSubmit}
-                                            type="submit">
+                                            <button
+                                                className="mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                                onClick={handleSubmit}
+                                                type="submit">
                                                 Yes, I confirm!
                                             </button>
-                                            <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" 
-                                            onClick={handleCancel}>
+                                            <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                                                onClick={handleCancel}>
                                                 No, cancel to operation!
                                             </button>
                                         </div>
@@ -228,6 +260,15 @@ export default function RentCar({ auth, id }: IRentCarProps) {
                     </div>
                 </div>
             </form>
+            <div className="flex justify-center">
+                {showSuccessAlert && <CustomAlert
+                    className="p-4 mb-4 text-sm text-black rounded-lg bg-green-200 dark:bg-gray-800 dark:text-red-400-"
+                    message="Successful rental" type="success" />}
+                {showErrorAlert && <CustomAlert
+                    className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-200 dark:bg-gray-800 dark:text-red-400-"
+                    message={errorMsg} type="error" />}
+            </div>
+
         </AuthenticatedLayout>
     );
 }

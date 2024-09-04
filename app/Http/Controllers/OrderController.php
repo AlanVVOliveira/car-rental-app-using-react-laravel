@@ -36,9 +36,17 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         try {
-            // leave the vehicle unavailable during the rental period
             $car = Car::findOrFail($request->input('car_id'));
-            if ($car->isAvailable == 1) {
+            if ($car->isAvailable == 0) {
+
+                return response()->json(['error' => 'The car is now unavailable!']);
+
+            } else if ($request->input('rental_start_date') == $request->input('rental_end_date')) {
+
+                return response()->json(['error' => 'Invalid dates, please try again!']);
+
+            } else {
+
                 $order = Order::create([
                     'client_id' => $request->input('client_id'),
                     'car_id' => $request->input('car_id'),
@@ -51,13 +59,12 @@ class OrderController extends Controller
                 $car->isAvailable = 0;
                 $car->save();
                 return response()->json(['message' => 'Successfully!']);
-            } else {
-                return response()->json(['message' => 'The car is now unavailable!']);
             }
         } catch (Exception $e) {
+
             Log::error($e->getMessage());
             Log::info($request->all());
-            return response()->json(['message' => 'Error'], 500);
+            return response()->json(['error' => 'Error'], 500);
         }
     }
 
