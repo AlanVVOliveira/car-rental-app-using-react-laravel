@@ -13,9 +13,6 @@ export const CustomAlert: React.FC<ICustomAlertProps> = ({ message, type, classN
   return (
     <div className={`${className}-${type} ${show ? 'show' : ''}`} role="alert">
       {message}
-      <button type="button" className="close" aria-label="Close" onClick={() => setShow(false)}>
-        <span aria-hidden="true">&times;</span>
-      </button>
     </div>
   );
 };

@@ -91,17 +91,13 @@ export default function RentCar({ auth, id }: IRentCarProps) {
     const handleFormSubmit = async (event: any) => {
         event.preventDefault();
         try {
-
-            
             setErrorMsg("");
             setShowErrorAlert(false);
             if (!startDate || !endDate) {
                 console.error("Start or end date is missing");
                 setShowErrorAlert(true);
             } else {
-                //setShowErrorAlert(false);
-                
-                // Prepare the data to send
+  
                 const formData = {
                     client_id: selectedClientId,
                     rental_start_date: startDate.toISOString(),

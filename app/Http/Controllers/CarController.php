@@ -36,7 +36,7 @@ class CarController extends Controller
         try {
 
             $rules = [
-                'manufacturer' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
+                'manufacturer' => 'required|regex:/^[\pL\s\d\-]+$/u|min:2|max:40',
                 'model' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
                 'exchange' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
                 'version' => 'required|regex:/^[\pL\s\d.]+$/u|min:2|max:40',
@@ -121,7 +121,7 @@ class CarController extends Controller
             $car = Car::findOrFail($id);
 
             $rules = [
-                'manufacturer' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
+                'manufacturer' => 'required|regex:/^[\pL\s\d\-]+$/u|min:2|max:40',
                 'model' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
                 'exchange' => 'required|regex:/^[\pL\s\d]+$/u|min:2|max:40',
                 'version' => 'required|regex:/^[\pL\s\d.]+$/u|min:2|max:40',
