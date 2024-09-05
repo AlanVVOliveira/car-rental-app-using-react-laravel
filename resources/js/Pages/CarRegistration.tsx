@@ -1,11 +1,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import { Inertia } from '@inertiajs/inertia';
 import { PageProps } from '@/types';
 import axios from 'axios';
-//import React from 'react';
 import React, { useState, useEffect } from 'react';
+import { CustomAlert } from '@/Components/CustomAlert';
 
-// POST
+
 interface FormData {
   manufacturer: string;
   model: string;
@@ -29,6 +30,19 @@ export default function CarRegistration({ auth }: PageProps) {
     plate: '',
   });
 
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+
+  // Error variables list
+  const [manufacturerError, setManufacturerError] = useState("");
+  const [modelError, setModelError] = useState("");
+  const [exchangeError, setExchangeError] = useState("");
+  const [versionError, setVersionError] = useState("");
+  const [fuelError, setFuelError] = useState("");
+  const [yearError, setYearError] = useState("");
+  const [dailyPriceError, setDailyPriceError] = useState("");
+  const [plateError, setPlateError] = useState("");
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prevFormData) => ({
@@ -43,8 +57,73 @@ export default function CarRegistration({ auth }: PageProps) {
     try {
       const response = await axios.post('/api/cars-store', formData);
       console.log('Form submitted successfully:', response.data);
+
+      if (response.data.message == 'Successfully!') {
+        setManufacturerError("");
+        setModelError("");
+        setExchangeError("");
+        setVersionError("");
+        setFuelError("");
+        setYearError("");
+        setDailyPriceError("");
+        setPlateError("");
+        setShowSuccessAlert(true);
+
+        // redirect to index page
+        Inertia.visit(`/cars-index`);
+
+      } else {
+        if (response.data.errors.manufacturer) {
+          setManufacturerError(response.data.errors.manufacturer);
+        } else {
+          setManufacturerError("");
+        }
+
+        if (response.data.errors.model) {
+          setModelError(response.data.errors.model);
+        } else {
+          setModelError("");
+        }
+
+        if (response.data.errors.exchange) {
+          setExchangeError(response.data.errors.exchange)
+        } else {
+          setExchangeError("");
+        }
+          
+        if (response.data.errors.version) {
+           setVersionError(response.data.errors.version)
+        } else {
+          setVersionError("");
+        }
+         
+        if (response.data.errors.fuel) {
+          setFuelError(response.data.errors.fuel);
+        } else { 
+          setFuelError("");
+        }
+
+        if (response.data.errors.year) {
+          setYearError(response.data.errors.year);
+        } else {
+          setYearError("");
+        }
+
+        if (response.data.errors.dailyPrice) {
+          setDailyPriceError(response.data.errors.dailyPrice);
+        } else {
+          setDailyPriceError("");
+        }
+          
+        if (response.data.errors.plate) {
+          setPlateError(response.data.errors.plate);
+        } else {
+          setPlateError("");
+        }
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
+      setShowErrorAlert(true);
     }
   };
 
@@ -79,6 +158,7 @@ export default function CarRegistration({ auth }: PageProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{manufacturerError}</span>
               </div>
 
               <div className="mb-5">
@@ -96,6 +176,7 @@ export default function CarRegistration({ auth }: PageProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{modelError}</span>
               </div>
 
               <div className="mb-5">
@@ -113,6 +194,7 @@ export default function CarRegistration({ auth }: PageProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{exchangeError}</span>
               </div>
 
               <div className="mb-5">
@@ -130,6 +212,7 @@ export default function CarRegistration({ auth }: PageProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{versionError}</span>
               </div>
 
               <div className="mb-5">
@@ -147,6 +230,7 @@ export default function CarRegistration({ auth }: PageProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{fuelError}</span>
               </div>
 
               <div className="mb-5">
@@ -164,6 +248,7 @@ export default function CarRegistration({ auth }: PageProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{yearError}</span>
               </div>
 
               <div className="mb-5">
@@ -181,6 +266,7 @@ export default function CarRegistration({ auth }: PageProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{dailyPriceError}</span>
               </div>
 
               <div className="mb-5">
@@ -198,6 +284,7 @@ export default function CarRegistration({ auth }: PageProps) {
                   onChange={handleChange}
                   required
                 />
+                <span id="error_msg" className="text-red-500 text-xs italic">{plateError}</span>
               </div>
 
               <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
@@ -206,6 +293,16 @@ export default function CarRegistration({ auth }: PageProps) {
                 Submit
               </button>
             </form>
+
+            <div className="flex justify-center">
+              {showSuccessAlert && <CustomAlert
+                className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-300 dark:bg-gray-800 dark:text-green-400-"
+                message="Successfully add car" type="success" />}
+
+              {showErrorAlert && <CustomAlert
+                className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400-"
+                message="Unable to add the car, please try again." type="error" />}
+            </div>
 
           </div>
         </div>
